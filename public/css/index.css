@@ -95,3 +95,10 @@ footer {
   padding: 20px;
   text-align: center;
 }
+
+main {
+  max-width: 80ch;
+	max-height: 100vh;
+  margin: 0 auto;
+  overflow: scroll;
+}
