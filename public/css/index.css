@@ -13,14 +13,11 @@
   --color-text-footer: #fff;
 }
 
-/* Font */
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;1,400&display=swap');
-
 /* Global */
 body {
   margin: 0;
-  font-family: 'Roboto', sans-serif;
-  font-size: 16px;
+  font-family: 'VT323', 'Times New Roman', sans-serif;
+  font-size: 20px;
   line-height: 1.5;
   color: var(--color-text);
   background-color: var(--color-bg);
