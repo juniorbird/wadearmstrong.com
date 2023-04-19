@@ -4,18 +4,19 @@
   --color-text: #333;
   --color-accent: #5CB85C;
   --color-bg-header: #333;
-  --color-text-header: #fff;
+  --color-text-header: #5CB85C;
   --color-bg-nav: transparent;
-  --color-text-nav: #fff;
+  --color-text-nav: #5CB85C;
   --color-bg-main: #333;
   --color-text-main: #5CB85C;
   --color-bg-footer: #333;
-  --color-text-footer: #fff;
+  --color-text-footer: #5CB85C;
 }
 
 /* Global */
 body {
-  margin: 0;
+  margin: 0 auto 0 auto;
+	max-width: 100ch;
   font-family: 'VT323', 'Times New Roman', sans-serif;
   font-size: 20px;
   line-height: 1.5;
@@ -40,8 +41,7 @@ header h1 {
 nav {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin-top: 20px;
+  align-items: left;
   background-color: var(--color-bg-nav);
 }
 
@@ -66,7 +66,7 @@ nav a {
 main {
   background-color: var(--color-bg-main);
   color: var(--color-text-main);
-  padding: 20px;
+  padding: 0 20px 0 20px;
   max-width: 100vw;
   overflow-y: scroll;
 }
@@ -78,7 +78,7 @@ main h2 {
 }
 
 main p {
-  margin-bottom: 20px;
+  margin: 0 0 20px 0;
 }
 
 main a {
@@ -89,8 +89,13 @@ main a {
 footer {
   background-color: var(--color-bg-footer);
   color: var(--color-text-footer);
-  padding: 20px;
+  padding: 5px;
   text-align: center;
+	position: fixed;
+  bottom: 0;
+	width: 100%;
+	line-height: 1.2;
+	height: 2.1rem;
 }
 
 main {
@@ -98,4 +103,14 @@ main {
 	max-height: 100vh;
   margin: 0 auto;
   overflow: scroll;
+	scrollbar-width: none; /* hide scrollbar in most browsers */
+  -moz-scrollbar: none; /* hide scrollbar in Firefox */
+}
+
+main::-webkit-scrollbar {
+  width: 0;
+}
+
+.visually-hidden {
+	display: none;
 }
