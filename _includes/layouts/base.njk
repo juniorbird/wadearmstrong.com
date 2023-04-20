@@ -31,8 +31,20 @@
 		{#- Render the CSS bundle using Inlined CSS (for the fastest site performance in production) #}
 		<link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=VT323">
-    <style>
 		<style>{% getBundle "css" %}</style>
+		<script language="Javascript">
+			const urls = {
+				'a': '/about/',
+				'h': '/',
+			};
+
+			document.addEventListener('keypress', function(event) {
+				const key = event.key.toLowerCase();
+				if (urls.hasOwnProperty(key)) {
+					window.location.href = urls[key];
+				}
+			});
+		</script>
 	</head>
 	<body>
 		<a href="#skip" class="visually-hidden">Skip to main content</a>
