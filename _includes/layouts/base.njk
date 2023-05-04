@@ -30,17 +30,19 @@
 
 		{#- Render the CSS bundle using Inlined CSS (for the fastest site performance in production) #}
 		<link rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=VT323">
+          href="https://fonts.googleapis.com/css?family=VT323|Fira+Code">
 		<style>{% getBundle "css" %}</style>
 		<script language="Javascript">
 			const urls = {
-				'a': '/about/',
+				'r': '/readme/',
 				'h': '/',
+				't': '/things/'
 			};
 
 			document.addEventListener('keypress', function(event) {
 				const key = event.key.toLowerCase();
 				if (urls.hasOwnProperty(key)) {
+					console.log(`navigating to ${urls[key]}`);
 					window.location.href = urls[key];
 				}
 			});
@@ -50,7 +52,7 @@
 		<a href="#skip" class="visually-hidden">Skip to main content</a>
 
 		<header>
-			<a href="/" class="home-link">{{ metadata.title }}</a>
+			<h1><a href="/" class="home-link">{{ metadata.title }}</a></h1>
 		</header>
 
 		<main id="skip">

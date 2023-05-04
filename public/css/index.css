@@ -18,8 +18,8 @@
 body {
   margin: 0 auto 0 auto;
 	max-width: 100ch;
-  font-family: 'VT323', 'Times New Roman', sans-serif;
-  font-size: 20px;
+  font-family: 'VT323', monospace;
+  font-size: 1em;
   line-height: 1.5;
   color: var(--color-text);
   background-color: var(--color-bg);
@@ -40,16 +40,18 @@ body {
 
 /* Header */
 header {
-  /* background-color: var(--color-bg-header); */
+  font-family: 'VT323', monospace;
   color: var(--color-text-header);
-  padding: 20px;
+  padding: 20px 0px 10px 0px;
 	max-height: 11vh;
 }
 
 header h1 {
   margin: 0;
-  font-size: 2.5rem;
+	color: var(--color-text-header);
+  font-size: 1.5rem;
   font-weight: 700;
+	text-decoration: none;
 }
 
 /* Navigation */
@@ -57,7 +59,8 @@ nav {
   display: flex;
   justify-content: space-between;
   align-items: left;
-  /* background-color: var(--color-bg-nav); */
+	font-family: 'VT323', monospace;
+  font-size: 1.5rem;
 }
 
 nav ul {
@@ -119,13 +122,13 @@ main a {
 footer {
   /* background-color: var(--color-bg-footer); */
   color: var(--color-text-footer);
-  padding: 5px;
+  padding: 12px 0px 1px 5px;
   text-align: center;
 	position: fixed;
   bottom: 0;
 	width: 100%;
 	line-height: 1.2;
-	height: 2.1rem;
+	min-height: 2.1rem;
 }
 
 main::-webkit-scrollbar {
@@ -134,4 +137,9 @@ main::-webkit-scrollbar {
 
 .visually-hidden {
 	display: none;
+}
+
+main p, main li {
+	font-family: 'Fira Code', sans-serif;
+	font-size: 1em;
 }
