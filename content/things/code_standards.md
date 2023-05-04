@@ -33,7 +33,8 @@ Try to use these as you write code. While the world is never nice and clean, and
 ### Rules of Thumb
 
 * Rather than
-```
+
+```javascript
 if (happy) {
   do 1st happy thing;
   ...
@@ -42,9 +43,10 @@ if (happy) {
   throw tantrum();
 }
 ```
+
 try
 
-```
+```javascript
 if (!happy) {
  throw tantrum();
 }

@@ -20,7 +20,7 @@ A graph, showing a few childhood memories networked together, with GI Joe's Lt. 
 
 Here’s a trivial example: my childhood memories. Look how many paths there are to get from my happy memories of playing to my traumatic memory of crashing my bike. But you have to activate a specific path to get to my memories of my GI Joe Lt. Falcon action figure.
 
-What that means for all of us is that, when we get far enough down our semantic network, only one frame is available to us; others are just too weakly-connected to flip over to, at least not without significant mental effort. This happened to me in a job interview once — I was working on GDPR compliance at my old job, so was thinking about privacy of PII. My interviewer asked me how to keep a variable’s value private in Javascript in the browser. The correct answer was "using a closure," but, focused on the GDPR frame, I said something like "once you send it to the browser, man, everyone can see it! It’s the wild west out there! There’s no privacy."[^4] The concept of "private" was framed in my mind as "information," not "variable private to a given function or method," so I missed it.
+What that means for all of us is that, when we get far enough down our semantic network, only one frame is available to us; others are just too weakly-connected to flip over to, at least not without significant mental effort. This happened to me in a job interview once — I was working on GDPR compliance at my old job, so was thinking about privacy of PII. My interviewer asked me how to keep a variable’s value private in Javascript in the browser. The correct answer was "using a closure," but, focused on the GDPR frame, I said something like "once you send it to the browser, man, everyone can see it! It’s the wild west out there! There’s no privacy."^[And yet, they hired me] The concept of "private" was framed in my mind as "information," not "variable private to a given function or method," so I missed it.
 
 This is all a long way of saying that the frame you use to filter information from the world around you absolutely neurologically limits your ability to think about that information in a different way. But, when we’re stuck on a programming (or, really, any life) challenge, thinking about the problem in a different way is essential to moving forward.
 
@@ -50,8 +50,8 @@ I may be a bad developer, but it’s not because I `console.log()` things a lot.
 
 But one part of what makes us good developers is our ability to look at problems in effective ways. So keep in mind the ways that you can use these two different debugging techniques to frame your approach to the problem in different ways. That gives you one more tool in your belt.
 
-[1]: Rest not in peace, IE11 Developer Tools!
-[2]: Developers should spend a lot more time reading social sciences
-[3]: Yes, the frame is tricking the speaker there. Frames do that a lot
-[4]: And yet, they hired me
-[5]: I use my debugger all the time, so you might not be
+[^1]: Rest not in peace, IE11 Developer Tools!
+[^2]: Developers should spend a lot more time reading social sciences
+[^3]: Yes, the frame is tricking the speaker there. Frames do that a lot
+[^4]: And yet, they hired me
+[^5]: I use my debugger all the time, so you might not be

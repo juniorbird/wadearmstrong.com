@@ -31,6 +31,7 @@
 		{#- Render the CSS bundle using Inlined CSS (for the fastest site performance in production) #}
 		<link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=VT323|Fira+Code">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" integrity="sha512-vswe+cgvic/XBoF1OcM/TeJ2FW0OofqAVdCZiEYkd6dwGXthvkSFWOoGGJgS2CW70VK5dQM5Oh+7ne47s74VTg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 		<style>{% getBundle "css" %}</style>
 		<script language="Javascript">
 			const urls = {
@@ -42,7 +43,7 @@
 			document.addEventListener('keypress', function(event) {
 				const key = event.key.toLowerCase();
 				if (urls.hasOwnProperty(key)) {
-					console.log(`navigating to ${urls[key]}`);
+					console.log(`Received your keypress, navigating to ${urls[key]}`);
 					window.location.href = urls[key];
 				}
 			});

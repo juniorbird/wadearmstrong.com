@@ -143,3 +143,8 @@ main p, main li {
 	font-family: 'Fira Code', sans-serif;
 	font-size: 1em;
 }
+
+code[class*=language-], pre[class*=language-] {
+	white-space: pre-wrap !important;
+	/* Yes, !important is a hack, but I'm dependent on 3rd-party css from Prism here */
+}
