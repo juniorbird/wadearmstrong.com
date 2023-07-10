@@ -2,62 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
 	
 	<url>
-		<loc>https://wadearmstrong.com/things/code_standards/</loc>
-		<lastmod>2019-07-04</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://wadearmstrong.com/things/on-call_checklist/</loc>
-		<lastmod>2019-08-24</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://wadearmstrong.com/things/why_to_use_ssh_proxy-command/</loc>
-		<lastmod>2019-09-14</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://wadearmstrong.com/things/sample_code_review_checklist/</loc>
-		<lastmod>2019-10-02</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://wadearmstrong.com/things/console-log_vs_breakpoint/</loc>
-		<lastmod>2020-02-11</lastmod>
-	</url>
-	
-	<url>
 		<loc>https://wadearmstrong.com/commonjs_esmodules_test-natively/</loc>
 		<lastmod>2020-04-01</lastmod>
 	</url>
 	
 	<url>
-		<loc>https://wadearmstrong.com/things/How%20to%20Start%20a%20Ticket/</loc>
-		<lastmod>2023-05-12</lastmod>
-	</url>
-	
-	<url>
 		<loc>https://wadearmstrong.com/</loc>
-		<lastmod>2023-05-19</lastmod>
+		<lastmod>2023-07-10</lastmod>
 	</url>
 	
 	<url>
 		<loc>https://wadearmstrong.com/readme/</loc>
-		<lastmod>2023-05-19</lastmod>
+		<lastmod>2023-07-10</lastmod>
 	</url>
 	
 	<url>
 		<loc>https://wadearmstrong.com/tags/</loc>
-		<lastmod>2023-05-19</lastmod>
-	</url>
-	
-	<url>
-		<loc>https://wadearmstrong.com/tags/things/</loc>
-		<lastmod>2023-05-19</lastmod>
+		<lastmod>2023-07-10</lastmod>
 	</url>
 	
 	<url>
 		<loc>https://wadearmstrong.com/things/</loc>
-		<lastmod>2023-05-19</lastmod>
+		<lastmod>2023-07-10</lastmod>
 	</url>
 </urlset>
