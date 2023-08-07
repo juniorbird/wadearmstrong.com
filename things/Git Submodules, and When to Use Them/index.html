@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Git Submodules, and When to Use Them</title>
+		<meta name="description" content="A description">
+		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Wade Armstrong">
+		<link rel="alternate" href="/feed/feed.json" type="application/json" title="Wade Armstrong">
+		
+		<link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=VT323|Fira+Code">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" integrity="sha512-vswe+cgvic/XBoF1OcM/TeJ2FW0OofqAVdCZiEYkd6dwGXthvkSFWOoGGJgS2CW70VK5dQM5Oh+7ne47s74VTg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+		<style>* { box-sizing: border-box; }
+/* Colors */
+:root {
+  --color-bg: #333;
+  --color-text: #333;
+  --color-accent: #5CB85C;
+  --color-bg-header: #333;
+  --color-text-header: #5CB85C;
+  --color-bg-nav: transparent;
+  --color-text-nav: #5CB85C;
+	--color-text-nav-glow: #7ac27a;
+  --color-bg-main: #333;
+  --color-text-main: #5CB85C;
+  --color-bg-footer: #333;
+  --color-text-footer: #5CB85C;
+}
+
+/* Global */
+body {
+  margin: 0 auto 0 auto;
+	max-width: 100ch;
+  font-family: 'VT323', monospace;
+  font-size: 1em;
+  line-height: 1.5;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+	background: radial-gradient(circle at center,
+		#222222 0%,
+		#242424 20%,
+		#262626 40%,
+		#282828 50%,
+		#2A2A2A 60%,
+		#2C2C2C 68%,
+		#2F2F2F 75%,
+		#333333 80%,
+		#353535 85%,
+		#383838 90%,
+		#3A3A3A 95%
+	);
+}
+
+/* Header */
+header {
+  font-family: 'VT323', monospace;
+  color: var(--color-text-header);
+  padding: 20px 0px 10px 0px;
+	margin: 0px;
+	max-height: 11vh;
+}
+
+header h1, header h1 a:any-link {
+  margin: 0px;
+	color: var(--color-text-header);
+  font-size: 1.5rem;
+  font-weight: 700;
+	text-decoration: none;
+	text-shadow: 0px 0px 2px var(--color-text-nav-glow)
+}
+
+/* Navigation */
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: left;
+	font-family: 'VT323', monospace;
+  font-size: 1.5rem;
+}
+
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+nav ul li {
+	margin-right: 3ch;
+}
+
+nav a {
+  color: var(--color-text-nav);
+  text-decoration: none;
+  font-weight: 700;
+	display: inline-block;
+	text-shadow: 0px 0px 2px var(--color-text-nav-glow);
+}
+
+nav a::first-letter {
+	color: var(--color-bg);
+	background-color: var(--color-text-nav);
+	padding: 0px 1px 0px 1px;
+	margin-right: 1px;
+	box-shadow: 0px 0px 2px var(--color-text-nav-glow);
+}
+
+/* Main */
+main {
+  /* background-color: var(--color-bg-main); */
+  color: var(--color-text-main);
+  padding: 0 20px 0 20px;
+	max-width: 120ch;
+  max-height: 85vh;
+	overflow:hidden;
+  overflow-y: scroll;
+  margin: 0 auto;
+	scrollbar-width: none; /* hide scrollbar in most browsers */
+  -moz-scrollbar: none; /* hide scrollbar in Firefox */
+}
+
+main h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-top: 0;
+}
+
+main p {
+  margin: 0 0 20px 0;
+}
+
+main a {
+  color: var(--color-accent);
+}
+
+/* Footer */
+footer {
+  /* background-color: var(--color-bg-footer); */
+  color: var(--color-text-footer);
+  padding: 12px 0px 1px 5px;
+  text-align: center;
+	position: fixed;
+  bottom: 0;
+	width: 100%;
+	line-height: 1.2;
+	min-height: 2.1rem;
+}
+
+main::-webkit-scrollbar {
+  width: 0;
+}
+
+.visually-hidden {
+	display: none;
+}
+
+main p, main li {
+	font-family: 'Fira Code', sans-serif;
+	font-size: 1em;
+}
+
+code[class*=language-], pre[class*=language-] {
+	white-space: pre-wrap !important;
+	/* Yes, !important is a hack, but I'm dependent on 3rd-party css from Prism here */
+}</style>
+		<script language="Javascript">
+			const urls = {
+				'r': '/readme/',
+				'h': '/',
+				't': '/things/'
+			};
+
+			document.addEventListener('keypress', function(event) {
+				const key = event.key.toLowerCase();
+				if (urls.hasOwnProperty(key)) {
+					console.log(`Received your keypress, navigating to ${urls[key]}`);
+					window.location.href = urls[key];
+				}
+			});
+		</script>
+	</head>
+	<body>
+		<a href="#skip" class="visually-hidden">Skip to main content</a>
+
+		<header>
+			<h1><a href="/" class="home-link">Wade Armstrong</a></h1>
+		</header>
+
+		<main id="skip">
+			<h1 id="git-submodules-and-when-to-use-them" tabindex="-1">Git Submodules, and When to Use Them <a class="header-anchor" href="#git-submodules-and-when-to-use-them">#</a></h1>
+<p>Git submodules are a fairly obscure feature of git. Imagine you have a main repo in which you want to include another, separate git repo — maybe a dependency or a vendor or something like that. Submodules let you include a separate git repo within a main git repo, while still being able to pull, push, and do all the git things to that separate git repo.</p>
+<h2 id="git-submodules-why" tabindex="-1">Git Submodules: Why? <a class="header-anchor" href="#git-submodules-why">#</a></h2>
+<p>The historic requirement from submodules is, so far as I understand, a desire to make it easy to vendor dependencies. These days, it's much easier to run a private npm/pip/etc. registry for anything internal you want to vendor. Heck, if you're doing a component-based application, you pretty much need your own registry, and the deploy processes to automatically push your components there.</p>
+<p>But sometimes you don't want to go to that amount of trouble. Maybe it's a small internal tool, or something only one person works on — the overhead of a real deploy process may be excessive. Maybe you've got a blog powered by one of those static site generators that keeps everything in <code>/content</code> and you don't want to worry about your content changing every time you <code>git checkout</code> a new branch.<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup></p>
+<h2 id="ok-so-what-do-i-type-into-the-terminal" tabindex="-1">OK, So What Do I Type Into the Terminal <a class="header-anchor" href="#ok-so-what-do-i-type-into-the-terminal">#</a></h2>
+<p>As we discussed above, you probably don't want to use submodules. But, if your project is small enough, here's how you do it.</p>
+<p>Start by cloning your submodule into your main git repo (assumes Github, but easy enough to change this for Gitlab etc.):</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">git</span> submodule <span class="token function">add</span> git@github.com:username/repo.git <span class="token operator">&lt;</span>destination<span class="token operator">></span> </code></pre>
+<p>So you're adding the repo as a submodule, in the folder named <code>destination</code>. (You can skip that value if you don't want to control your folder name.)</p>
+<p>Now you can pull updates by:</p>
+<pre class="language-bash" tabindex="0"><code class="language-bash"><span class="token function">git</span> pull --recurse-submodules   <br><span class="token function">git</span> submodule update <span class="token parameter variable">--init</span> <span class="token parameter variable">--recursive</span></code></pre>
+<p>Note that you're doing two things here:</p>
+<ol>
+<li>Pulling the change as normal (<code>--recurse-submodules</code> lets you do this outside of the submodule directory<sup class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup>)</li>
+<li>Updating the git index of the main project to point to whatever commit it is you just pulled</li>
+</ol>
+<p>That last part is the important one here; the submodule points to a specific commit (or tag, etc.). If you want to update the content you have, you need to save the new revision you just pulled.</p>
+<p>Congrats, now you've got a mildly-inconvenient process that is probably simpler than a real deploy process for your small project. Have fun!</p>
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1" class="footnote-item"><p>Yep, that's me. <a href="https://github.com/juniorbird/wadearmstrong.com">This site</a> is made with <a href="https://www.11ty.dev">eleventy</a> and I manage <a href="https://github.com/juniorbird/wadearmstrong.com-content">my content in a separate repo</a>. I started doing this after I realized that I'd written a blog post I wanted to publish now in a feature branch I didn't want to merge now. <a href="#fnref1" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn2" class="footnote-item"><p>If you don't want to remember to do this, you can add this to the project config by running <code>git config --local submodule.recurse true</code>. Or use <code>--global</code>, go crazy if you like, shouldn't be damaging. <a href="#fnref2" class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section>
+
+		</main>
+
+		<footer>
+			<nav>
+				<h2 class="visually-hidden">Top level navigation menu</h2>
+				<ul class="nav">
+					<li class="nav-item"><a href="/">Home</a></li>
+					<li class="nav-item"><a href="/readme/">README</a></li>
+					<li class="nav-item"><a href="/things/">Things I&#39;ve Learned</a></li>
+				</ul>
+			</nav>
+		</footer>
+
+		<!-- Current page: /things/Git Submodules, and When to Use Them/ -->
+	</body>
+</html>

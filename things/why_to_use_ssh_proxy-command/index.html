@@ -3,8 +3,8 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Wade Armstrong</title>
-		<meta name="description" content="Engineering Leader With Proven Record of Building High-Performing, Quality-Oriented Teams.">
+		<title>Why To Use SSH ProxyCommand</title>
+		<meta name="description" content="SSH forwarding is great, but ProxyCommand lets you actually script how to make multiple jumps to get to a box.">
 		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Wade Armstrong">
 		<link rel="alternate" href="/feed/feed.json" type="application/json" title="Wade Armstrong">
 		
@@ -188,22 +188,27 @@ code[class*=language-], pre[class*=language-] {
 		</header>
 
 		<main id="skip">
-			<p id="hello">Hi. I'm  Wade</p>
-<p>I'm a Developer & Engineering Manager who builds high-performing, quality-focused, happy teams.Over the past decade, I've led teams that were responsible for serving millions of pageviews daily; delivered streaming content metadata and programming information to very nearly every set-top box out there; and built cutting-edge adtech from scratch. (I wrote some of the code for all of that along the way, too.)</p>
-<p>More importantly, I've helped these team members grow into Senior and even Staff Engineers; helped newcomers get their foot in the door; advocated for and supported diversity at all levels; and retained talent that had one of their feet already out that door.</p>
-<p>Processes are one of my passions, and I've built repeatable, measurable processes that create quality code and reliable systems. Sometimes, I've even written the tools that power those processes. Of course, not everything goes right the first time, and I have deep experience as an incident manager and responding to incidents as a developer.</p>
-<p>Also as a developer, I've worked across the stack, from Javascript in the browser; to Javascript, PHP, and Go on the backend; including Redis and Varnish on the caching layer; SQL Server, MySQL, and Postgres databases; and AWS and private clouds. I pride myself on my ability to learn new languages and frameworks, and work well in teams experienced with those tools.</p>
-<p>I care about doing work that makes the world a better place, and want to contribute to companies with meaningful missions.</p>
-<p>Welcome!</p>
-<h1>Tags</h1>
-
+			<h1 id="you-should-switch-to-proxycommmand-with-ssh" tabindex="-1">You Should Switch to ProxyCommmand With SSH <a class="header-anchor" href="#you-should-switch-to-proxycommmand-with-ssh">#</a></h1>
+<p>SSH forwarding is great, but ProxyCommand lets you actually script how to make multiple jumps to get to a box.</p>
+<p>To set it up, do the following:</p>
+<ol>
+<li>Copy your public key to all the places you want it</li>
+</ol>
 <ul>
-
-	
-	<li><a href="/tags/things/" class="post-tag">things</a></li>
-
+<li>You may want to put your public key in puppet, but iff you put your <em>private</em> key in puppet, then everyone with access to Puppet can see it, so... no
+<ul>
+<li><code>mkdir .ssh</code></li>
+<li><code>vim .ssh/authorized_keys</code> and paste your private key there</li>
 </ul>
-
+</li>
+</ul>
+<ol start="2">
+<li>On your laptop, create a file that looks like the following file at <code>.ssh/config</code></li>
+</ol>
+<pre class="language-shell" tabindex="0"><code class="language-shell">Host foo<br> User warmstrong<br> Hostname foo.yourdomain.dev<br><br>Host automation<br> User warmstrong<br> Hostname automation.yourdomain.dev<br><br>Host jump <span class="token comment">#this creates a host aliased to "jump", now you can "ssh jump"</span><br> Hostname jumpbox.dom<br> User warmstrong<br> ProxyCommand <span class="token function">ssh</span> <span class="token parameter variable">-q</span> <span class="token parameter variable">-W</span> %h:%p foo <span class="token comment">#This means "ssh to this box using foo"</span><br><br>Host admin.other.dom<br> User warmstrong<br> ProxyCommand <span class="token function">ssh</span> <span class="token parameter variable">-q</span> <span class="token parameter variable">-W</span> %h:%p foo <span class="token comment">#Using the Hostname(%h) and Port(%p) you're using anyway, and passing stdio directly through(-W) but hiding errors(-q)</span><br><br>Host uat<br> User warmstrong<br> Hostname uat01.dom<br> ProxyCommand <span class="token function">ssh</span> <span class="token parameter variable">-q</span> <span class="token parameter variable">-W</span> %h:%p jump <span class="token comment">#Note that you're using the named jump box above to go here</span><br><br>Host logrepo<br> User warmstrong<br> Hostname logrepo.dom<br> ProxyCommand <span class="token function">ssh</span> <span class="token parameter variable">-q</span> <span class="token parameter variable">-W</span> %h:%p jump <span class="token comment">#SSH will resolve everything in the chain, so it figures out you need jump, jump needs foo, and does all those sshes to get there</span><br><br>Host static-server<br> User warmstrong<br> Hostname static.yourdomain.dom<br> ProxyCommand <span class="token function">ssh</span> <span class="token parameter variable">-q</span> <span class="token parameter variable">-W</span> %h:%p jump <span class="token comment">#Fun fact, -W means that this works for scp as well as ssh</span></code></pre>
+<ol start="3">
+<li>You can now ssh directly to <code>uat</code>, <code>logrepo</code>, etc. without hitting multiple jump boxen.</li>
+</ol>
 
 		</main>
 
@@ -218,6 +223,6 @@ code[class*=language-], pre[class*=language-] {
 			</nav>
 		</footer>
 
-		<!-- Current page: /tags/ -->
+		<!-- Current page: /things/why_to_use_ssh_proxy-command/ -->
 	</body>
 </html>

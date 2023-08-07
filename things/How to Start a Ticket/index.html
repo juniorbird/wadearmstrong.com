@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>How to Start a Ticket</title>
+		<meta name="description" content="With just an hour or two of work up-front, it&#39;s possible to avoid many of the reasons stories become frustrating and unpleasant. Don&#39;t get your PRs kicked back; do your work up front.">
+		<link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="Wade Armstrong">
+		<link rel="alternate" href="/feed/feed.json" type="application/json" title="Wade Armstrong">
+		
+		<link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=VT323|Fira+Code">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" integrity="sha512-vswe+cgvic/XBoF1OcM/TeJ2FW0OofqAVdCZiEYkd6dwGXthvkSFWOoGGJgS2CW70VK5dQM5Oh+7ne47s74VTg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+		<style>* { box-sizing: border-box; }
+/* Colors */
+:root {
+  --color-bg: #333;
+  --color-text: #333;
+  --color-accent: #5CB85C;
+  --color-bg-header: #333;
+  --color-text-header: #5CB85C;
+  --color-bg-nav: transparent;
+  --color-text-nav: #5CB85C;
+	--color-text-nav-glow: #7ac27a;
+  --color-bg-main: #333;
+  --color-text-main: #5CB85C;
+  --color-bg-footer: #333;
+  --color-text-footer: #5CB85C;
+}
+
+/* Global */
+body {
+  margin: 0 auto 0 auto;
+	max-width: 100ch;
+  font-family: 'VT323', monospace;
+  font-size: 1em;
+  line-height: 1.5;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+	background: radial-gradient(circle at center,
+		#222222 0%,
+		#242424 20%,
+		#262626 40%,
+		#282828 50%,
+		#2A2A2A 60%,
+		#2C2C2C 68%,
+		#2F2F2F 75%,
+		#333333 80%,
+		#353535 85%,
+		#383838 90%,
+		#3A3A3A 95%
+	);
+}
+
+/* Header */
+header {
+  font-family: 'VT323', monospace;
+  color: var(--color-text-header);
+  padding: 20px 0px 10px 0px;
+	margin: 0px;
+	max-height: 11vh;
+}
+
+header h1, header h1 a:any-link {
+  margin: 0px;
+	color: var(--color-text-header);
+  font-size: 1.5rem;
+  font-weight: 700;
+	text-decoration: none;
+	text-shadow: 0px 0px 2px var(--color-text-nav-glow)
+}
+
+/* Navigation */
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: left;
+	font-family: 'VT323', monospace;
+  font-size: 1.5rem;
+}
+
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+nav ul li {
+	margin-right: 3ch;
+}
+
+nav a {
+  color: var(--color-text-nav);
+  text-decoration: none;
+  font-weight: 700;
+	display: inline-block;
+	text-shadow: 0px 0px 2px var(--color-text-nav-glow);
+}
+
+nav a::first-letter {
+	color: var(--color-bg);
+	background-color: var(--color-text-nav);
+	padding: 0px 1px 0px 1px;
+	margin-right: 1px;
+	box-shadow: 0px 0px 2px var(--color-text-nav-glow);
+}
+
+/* Main */
+main {
+  /* background-color: var(--color-bg-main); */
+  color: var(--color-text-main);
+  padding: 0 20px 0 20px;
+	max-width: 120ch;
+  max-height: 85vh;
+	overflow:hidden;
+  overflow-y: scroll;
+  margin: 0 auto;
+	scrollbar-width: none; /* hide scrollbar in most browsers */
+  -moz-scrollbar: none; /* hide scrollbar in Firefox */
+}
+
+main h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-top: 0;
+}
+
+main p {
+  margin: 0 0 20px 0;
+}
+
+main a {
+  color: var(--color-accent);
+}
+
+/* Footer */
+footer {
+  /* background-color: var(--color-bg-footer); */
+  color: var(--color-text-footer);
+  padding: 12px 0px 1px 5px;
+  text-align: center;
+	position: fixed;
+  bottom: 0;
+	width: 100%;
+	line-height: 1.2;
+	min-height: 2.1rem;
+}
+
+main::-webkit-scrollbar {
+  width: 0;
+}
+
+.visually-hidden {
+	display: none;
+}
+
+main p, main li {
+	font-family: 'Fira Code', sans-serif;
+	font-size: 1em;
+}
+
+code[class*=language-], pre[class*=language-] {
+	white-space: pre-wrap !important;
+	/* Yes, !important is a hack, but I'm dependent on 3rd-party css from Prism here */
+}</style>
+		<script language="Javascript">
+			const urls = {
+				'r': '/readme/',
+				'h': '/',
+				't': '/things/'
+			};
+
+			document.addEventListener('keypress', function(event) {
+				const key = event.key.toLowerCase();
+				if (urls.hasOwnProperty(key)) {
+					console.log(`Received your keypress, navigating to ${urls[key]}`);
+					window.location.href = urls[key];
+				}
+			});
+		</script>
+	</head>
+	<body>
+		<a href="#skip" class="visually-hidden">Skip to main content</a>
+
+		<header>
+			<h1><a href="/" class="home-link">Wade Armstrong</a></h1>
+		</header>
+
+		<main id="skip">
+			<h1 id="how-to-start-a-ticket" tabindex="-1">How to Start a Ticket <a class="header-anchor" href="#how-to-start-a-ticket">#</a></h1>
+<p>With just an hour or two of work up-front, it's possible to avoid many of the reasons stories become frustrating and unpleasant. Don't get your PRs kicked back; do your work up front.</p>
+<ol>
+<li><strong>Get All the Answers.</strong> Product and UX's job is to help you resolve all the edge cases. Make sure you understand:</li>
+</ol>
+<ul>
+<li>What to do if operations fail (bad user input, bad API response, bad login state, etc.)</li>
+<li>What device types you need to make this work on</li>
+<li>Confirm that any changed text, links, etc., is actually meant to change and not a typo</li>
+</ul>
+<ol start="2">
+<li><strong>Did someone else do it before?</strong> If your goal is not to create something totally new in the codebase, then it's possible that others have done something similar before. Even if you're doing something new, it may be that other people have had to deal with the same interfaces in completing their tickets. Searching completed tickets for some of the keywords in your ticket can often reveal past pull requests that can act as signposts on your path, or even give you some of the code you need. It's not cheating, it's understanding the codebase and applying past best practices.</li>
+<li><strong>Assess ways to do the ticket.</strong> Read the code and understand how things work in the module (if you're developing something from scratch, find similar things and understand how they work). If you want to discuss your approach with others, one option is to outline multiple options in ticket comments and direct the discussion there. It may also help to draw pictures at this stage.</li>
+<li><strong>Consult a Colleague.</strong> Ask someone what they think of your approaches. Senior and Principal Engineers are specifically paid to do these things, so don't be shy about asking them. If you're not co-located, tag them in the ticket comments (make sure to communicate out-of-band so they expect it). Agree on a preferred approach.</li>
+<li><strong>Go to a Domain Expert.</strong> If another team often works with this kind of code , then reach out to validate your approach.</li>
+<li><strong>Document the Chosen Approach.</strong> Describe the approach in the ticket comments. This comment doesn't need to be all-encompassing, but, if someone finds the ticket in 8 months and needs to do the same thing, they should be able to get a good start from your comment.</li>
+</ol>
+<h2 id="faq" tabindex="-1">FAQ <a class="header-anchor" href="#faq">#</a></h2>
+<h3 id="do-i-need-to-do-this-every-time" tabindex="-1">Do I need to do this every time? <a class="header-anchor" href="#do-i-need-to-do-this-every-time">#</a></h3>
+<p>No, it's certainly too much effort for 1-day tickets, but the effort's worth it for anything you'll work on for longer.</p>
+<h3 id="seriously-this-seems-like-it-would-make-tickets-take-longer" tabindex="-1">Seriously, this seems like it would make tickets take longer <a class="header-anchor" href="#seriously-this-seems-like-it-would-make-tickets-take-longer">#</a></h3>
+<p>What really take a long time, both in terms of how much of a given sprint it takes up and, maybe more importantly, in terms of <em>how long it feels</em>, is when a ticket gets kicked back multiple times from code review.</p>
+<p>Think of this as a way to push all your mistakes to early in the process, when they can be redone cheaply:</p>
+<ul>
+<li>Changing your mind in a conversation is easier than changing code</li>
+<li>Drawing a new line or a new entity on a whiteboard is easier than changing code</li>
+</ul>
+<p>Don't let yourself get bogged down, but, if you expect a ticket to take a few days, what's the downside of spending a couple hours up front?</p>
+<h3 id="shouldn-t-the-organization-trust-me-to-plan-my-story-on-my-own" tabindex="-1">Shouldn't the organization trust me to plan my story on my own? <a class="header-anchor" href="#shouldn-t-the-organization-trust-me-to-plan-my-story-on-my-own">#</a></h3>
+<p>Sure, and they also trust you to execute the plan and write code. But most orgs also have code review, because we're all, together, smarter than any one of us, individually. Think of the above as &quot;idea review&quot;.</p>
+<h3 id="i-don-t-want-to-ask-dumb-questions-of-senior-engineers-that-makes-me-feel-dumb" tabindex="-1">I don't want to ask dumb questions of Senior Engineers, that makes me feel dumb. <a class="header-anchor" href="#i-don-t-want-to-ask-dumb-questions-of-senior-engineers-that-makes-me-feel-dumb">#</a></h3>
+<p>Answering those questions is literally in their job description, and they're literally evaluated on how well (and positively!) they answer them. You should never be made to feel dumb. If you are, let your manager know.</p>
+<h3 id="so-i-can-ask-any-dumb-question-then" tabindex="-1">So I can ask any dumb question, then? <a class="header-anchor" href="#so-i-can-ask-any-dumb-question-then">#</a></h3>
+<p>Ask your best question. Do enough research that you're comfortable you have a specific question that, when answered, will lead you forward. Some advice on asking good questions: <a href="https://stackoverflow.com/help/how-to-ask">1</a> <a href="https://medium.com/@dan_abramov/asking-good-questions-421f08ee7e5c">2</a>, <a href="https://medium.com/@gordon_zhu/how-to-be-great-at-asking-questions-e37be04d0603">3</a>, <a href="http://www.catb.org/~esr/faqs/smart-questions.html">4</a>, <a href="https://codeblog.jonskeet.uk/2012/11/24/stack-overflow-question-checklist/">5</a>.</p>
+<p>Your best question probably expresses less understanding of a topic than a subject matter expert would have. If you knew all that SME knew, you wouldn't have a question (and you'd be the SME). Don't worry that you know less.</p>
+<h3 id="what-do-i-do-if-i-get-an-answer" tabindex="-1">What do I do if I get an answer? <a class="header-anchor" href="#what-do-i-do-if-i-get-an-answer">#</a></h3>
+<p>Document it! In the ticket comments, if it's trivial; if you think it would be useful to other people, in the permanent documentation, such as a wiki or generated docs. If you're not sure, you probably have your own page on a wiki, so put it there. Documenting things you learn helps you not have to ask the same questions again and again, which makes you faster and happier. Soon, you'll be the expert!</p>
+<h3 id="that-s-a-lot-of-documentation" tabindex="-1">That's a lot of documentation! <a class="header-anchor" href="#that-s-a-lot-of-documentation">#</a></h3>
+<p>Would you rather write a few comments or have people keep asking you what's going on? Thought so.</p>
+
+		</main>
+
+		<footer>
+			<nav>
+				<h2 class="visually-hidden">Top level navigation menu</h2>
+				<ul class="nav">
+					<li class="nav-item"><a href="/">Home</a></li>
+					<li class="nav-item"><a href="/readme/">README</a></li>
+					<li class="nav-item"><a href="/things/">Things I&#39;ve Learned</a></li>
+				</ul>
+			</nav>
+		</footer>
+
+		<!-- Current page: /things/How to Start a Ticket/ -->
+	</body>
+</html>

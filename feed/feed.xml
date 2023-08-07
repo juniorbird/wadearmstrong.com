@@ -4,12 +4,182 @@
 	<subtitle>Engineering Leader With Proven Record of Building High-Performing, Quality-Oriented Teams.</subtitle>
 	<link href="https://wadearmstrong.com/feed/feed.xml" rel="self"/>
 	<link href="https://wadearmstrong.com/"/>
-	<updated>2020-04-01T00:00:00Z</updated>
+	<updated>2023-07-11T00:00:00Z</updated>
 	<id>https://wadearmstrong.com/</id>
 	<author>
 		<name>Wade Armstrong</name>
 		<email>wade@wadearmstrong.com</email>
 	</author>
+	
+	<entry>
+		<title>Git Submodules, and When to Use Them</title>
+		<link href="https://wadearmstrong.com/things/Git%20Submodules,%20and%20When%20to%20Use%20Them/"/>
+		<updated>2023-07-11T00:00:00Z</updated>
+		<id>https://wadearmstrong.com/things/Git%20Submodules,%20and%20When%20to%20Use%20Them/</id>
+		<content type="html">&lt;h1 id=&quot;git-submodules-and-when-to-use-them&quot; tabindex=&quot;-1&quot;&gt;Git Submodules, and When to Use Them &lt;a class=&quot;header-anchor&quot; href=&quot;https://wadearmstrong.com/things/Git%20Submodules,%20and%20When%20to%20Use%20Them/&quot;&gt;#&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;Git submodules are a fairly obscure feature of git. Imagine you have a main repo in which you want to include another, separate git repo — maybe a dependency or a vendor or something like that. Submodules let you include a separate git repo within a main git repo, while still being able to pull, push, and do all the git things to that separate git repo.&lt;/p&gt;
+&lt;h2 id=&quot;git-submodules-why&quot; tabindex=&quot;-1&quot;&gt;Git Submodules: Why? &lt;a class=&quot;header-anchor&quot; href=&quot;https://wadearmstrong.com/things/Git%20Submodules,%20and%20When%20to%20Use%20Them/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;The historic requirement from submodules is, so far as I understand, a desire to make it easy to vendor dependencies. These days, it&#39;s much easier to run a private npm/pip/etc. registry for anything internal you want to vendor. Heck, if you&#39;re doing a component-based application, you pretty much need your own registry, and the deploy processes to automatically push your components there.&lt;/p&gt;
+&lt;p&gt;But sometimes you don&#39;t want to go to that amount of trouble. Maybe it&#39;s a small internal tool, or something only one person works on — the overhead of a real deploy process may be excessive. Maybe you&#39;ve got a blog powered by one of those static site generators that keeps everything in &lt;code&gt;/content&lt;/code&gt; and you don&#39;t want to worry about your content changing every time you &lt;code&gt;git checkout&lt;/code&gt; a new branch.&lt;sup class=&quot;footnote-ref&quot;&gt;&lt;a href=&quot;https://wadearmstrong.com/things/Git%20Submodules,%20and%20When%20to%20Use%20Them/&quot; id=&quot;fnref1&quot;&gt;[1]&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+&lt;h2 id=&quot;ok-so-what-do-i-type-into-the-terminal&quot; tabindex=&quot;-1&quot;&gt;OK, So What Do I Type Into the Terminal &lt;a class=&quot;header-anchor&quot; href=&quot;https://wadearmstrong.com/things/Git%20Submodules,%20and%20When%20to%20Use%20Them/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;As we discussed above, you probably don&#39;t want to use submodules. But, if your project is small enough, here&#39;s how you do it.&lt;/p&gt;
+&lt;p&gt;Start by cloning your submodule into your main git repo (assumes Github, but easy enough to change this for Gitlab etc.):&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;git&lt;/span&gt; submodule &lt;span class=&quot;token function&quot;&gt;add&lt;/span&gt; git@github.com:username/repo.git &lt;span class=&quot;token operator&quot;&gt;&amp;lt;&lt;/span&gt;destination&lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt; &lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;So you&#39;re adding the repo as a submodule, in the folder named &lt;code&gt;destination&lt;/code&gt;. (You can skip that value if you don&#39;t want to control your folder name.)&lt;/p&gt;
+&lt;p&gt;Now you can pull updates by:&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;git&lt;/span&gt; pull --recurse-submodules   &lt;br&gt;&lt;span class=&quot;token function&quot;&gt;git&lt;/span&gt; submodule update &lt;span class=&quot;token parameter variable&quot;&gt;--init&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;--recursive&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Note that you&#39;re doing two things here:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Pulling the change as normal (&lt;code&gt;--recurse-submodules&lt;/code&gt; lets you do this outside of the submodule directory&lt;sup class=&quot;footnote-ref&quot;&gt;&lt;a href=&quot;https://wadearmstrong.com/things/Git%20Submodules,%20and%20When%20to%20Use%20Them/&quot; id=&quot;fnref2&quot;&gt;[2]&lt;/a&gt;&lt;/sup&gt;)&lt;/li&gt;
+&lt;li&gt;Updating the git index of the main project to point to whatever commit it is you just pulled&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;That last part is the important one here; the submodule points to a specific commit (or tag, etc.). If you want to update the content you have, you need to save the new revision you just pulled.&lt;/p&gt;
+&lt;p&gt;Congrats, now you&#39;ve got a mildly-inconvenient process that is probably simpler than a real deploy process for your small project. Have fun!&lt;/p&gt;
+&lt;hr class=&quot;footnotes-sep&quot;&gt;
+&lt;section class=&quot;footnotes&quot;&gt;
+&lt;ol class=&quot;footnotes-list&quot;&gt;
+&lt;li id=&quot;fn1&quot; class=&quot;footnote-item&quot;&gt;&lt;p&gt;Yep, that&#39;s me. &lt;a href=&quot;https://github.com/juniorbird/wadearmstrong.com&quot;&gt;This site&lt;/a&gt; is made with &lt;a href=&quot;https://www.11ty.dev&quot;&gt;eleventy&lt;/a&gt; and I manage &lt;a href=&quot;https://github.com/juniorbird/wadearmstrong.com-content&quot;&gt;my content in a separate repo&lt;/a&gt;. I started doing this after I realized that I&#39;d written a blog post I wanted to publish now in a feature branch I didn&#39;t want to merge now. &lt;a href=&quot;https://wadearmstrong.com/things/Git%20Submodules,%20and%20When%20to%20Use%20Them/&quot; class=&quot;footnote-backref&quot;&gt;↩︎&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&quot;fn2&quot; class=&quot;footnote-item&quot;&gt;&lt;p&gt;If you don&#39;t want to remember to do this, you can add this to the project config by running &lt;code&gt;git config --local submodule.recurse true&lt;/code&gt;. Or use &lt;code&gt;--global&lt;/code&gt;, go crazy if you like, shouldn&#39;t be damaging. &lt;a href=&quot;https://wadearmstrong.com/things/Git%20Submodules,%20and%20When%20to%20Use%20Them/&quot; class=&quot;footnote-backref&quot;&gt;↩︎&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/section&gt;
+</content>
+	</entry>
+	
+	<entry>
+		<title>CommonJS, ES Modules, and Why to Test Natively in One or the Other</title>
+		<link href="https://wadearmstrong.com/things/commonjs_esmodules_test-natively/"/>
+		<updated>2023-05-12T00:00:00Z</updated>
+		<id>https://wadearmstrong.com/things/commonjs_esmodules_test-natively/</id>
+		<content type="html">&lt;h1 id=&quot;commonjs-es-modules-and-why-to-test-natively-in-one-or-the-other&quot; tabindex=&quot;-1&quot;&gt;CommonJS, ES Modules, and Why to Test Natively in One or The Other &lt;a class=&quot;header-anchor&quot; href=&quot;https://wadearmstrong.com/things/commonjs_esmodules_test-natively/&quot;&gt;#&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;In Javascript, there are two different ways that a given file can export functions, objects, values, and other components, for reuse in a second file or files — CommonJS (&#39;CJS&#39;) and ES Modules (&#39;ESM&#39;). These two methods of export are actually surprisingly different, because they were designed for use in completely separate circumstances.&lt;/p&gt;
+&lt;h2 id=&quot;where-you-ll-see-the-difference&quot; tabindex=&quot;-1&quot;&gt;Where You&#39;ll See The Difference &lt;a class=&quot;header-anchor&quot; href=&quot;https://wadearmstrong.com/things/commonjs_esmodules_test-natively/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;If you&#39;ve worked in Javascript for a while, you&#39;ve probably become used to the &lt;a href=&quot;https://nodejs.org/docs/latest-v20.x/api/modules.html#requireid&quot;&gt;&lt;code&gt;require()&lt;/code&gt;&lt;/a&gt; syntax for including the contents of other files, and the &lt;a href=&quot;https://nodejs.org/docs/latest-v20.x/api/modules.html#moduleexports&quot;&gt;&lt;code&gt;module.exports&lt;/code&gt;&lt;/a&gt; syntax for exporting features from a file:&lt;/p&gt;
+&lt;pre class=&quot;language-javascript&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; importedModule &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;require&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&#39;/path/to/module.js&#39;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;br&gt;&lt;br&gt;&lt;span class=&quot;token keyword&quot;&gt;let&lt;/span&gt; value &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;importedModule&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;input&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;br&gt;&lt;br&gt;module&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;exports &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;br&gt;	value&lt;br&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt; &lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;That&#39;s a tip-off that you&#39;re using CommonJS; ESM uses &lt;a href=&quot;https://tc39.es/ecma262/#sec-imports&quot;&gt;&lt;code&gt;import&lt;/code&gt;&lt;/a&gt; and &lt;a href=&quot;https://tc39.es/ecma262/#sec-exports&quot;&gt;&lt;code&gt;export&lt;/code&gt;&lt;/a&gt; for the same jobs:&lt;/p&gt;
+&lt;pre class=&quot;language-javascript&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; importedModule &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&#39;/path/to/module.js&#39;&lt;/span&gt;&lt;br&gt;&lt;br&gt;&lt;span class=&quot;token keyword&quot;&gt;let&lt;/span&gt; value &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;importedModule&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;input&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;br&gt;&lt;br&gt;&lt;span class=&quot;token keyword&quot;&gt;export&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;default&lt;/span&gt; value&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;For most developers, this will be the only time they see a difference between the two approaches. Which syntax you use is probably going to be defined by the frameworks you&#39;re using:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Node natively supports CJS, but has supported ESM since v.12&lt;/li&gt;
+&lt;li&gt;React supports both, but &lt;a href=&quot;https://create-react-app.dev&quot;&gt;create-react-app&lt;/a&gt; uses ESM (which one you choose will primarily be defined by your bundler)&lt;/li&gt;
+&lt;li&gt;Angular supports both, but strongly prefers ESM&lt;/li&gt;
+&lt;li&gt;Vue switched to ESM in v.13&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;While technically you can mix CJS and ESM in a single project,&lt;sup class=&quot;footnote-ref&quot;&gt;&lt;a href=&quot;https://wadearmstrong.com/things/commonjs_esmodules_test-natively/&quot; id=&quot;fnref1&quot;&gt;[1]&lt;/a&gt;&lt;/sup&gt; that&#39;s a good way to cause build chain problems. You can&#39;t practically mix the two syntaxes in a single file&lt;sup class=&quot;footnote-ref&quot;&gt;&lt;a href=&quot;https://wadearmstrong.com/things/commonjs_esmodules_test-natively/&quot; id=&quot;fnref2&quot;&gt;[2]&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+&lt;h2 id=&quot;what-is-the-difference-under-the-hood&quot; tabindex=&quot;-1&quot;&gt;What Is The Difference Under The Hood &lt;a class=&quot;header-anchor&quot; href=&quot;https://wadearmstrong.com/things/commonjs_esmodules_test-natively/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;But it&#39;s not just build chains that have trouble with the two different export formats — there are actually significant technical differences in the way that ESM and CJS are implemented.&lt;/p&gt;
+&lt;h3 id=&quot;why-commonjs-is-here&quot; tabindex=&quot;-1&quot;&gt;Why CommonJS is Here &lt;a class=&quot;header-anchor&quot; href=&quot;https://wadearmstrong.com/things/commonjs_esmodules_test-natively/&quot;&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;First, a little history. When Node first came around, there was no standardized way to include components from different files. They chose CommonJS, one of the major proposals at the time, not least because it was straightforward to use on servers&lt;sup class=&quot;footnote-ref&quot;&gt;&lt;a href=&quot;https://wadearmstrong.com/things/commonjs_esmodules_test-natively/&quot; id=&quot;fnref3&quot;&gt;[3]&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+&lt;p&gt;One thing that made it so straightforward on servers was that it loads all included modules &lt;em&gt;synchronously&lt;/em&gt; — that is, it kind of assumes that the modules will just &#39;be there&#39; when it hits the &lt;code&gt;require()&lt;/code&gt; line in the code. This is true on servers, so that&#39;s a great choice for Node.&lt;/p&gt;
+&lt;h3 id=&quot;why-es-modules-are-here&quot; tabindex=&quot;-1&quot;&gt;Why ES Modules are Here &lt;a class=&quot;header-anchor&quot; href=&quot;https://wadearmstrong.com/things/commonjs_esmodules_test-natively/&quot;&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;Of course, on the Web, files are not at all &#39;just there&#39; — they take a while to load from wherever in the world they are hosted. CJS&#39;s synchronous approach to loading would result in the browser appearing to stall as each dependency was loaded, in order; an asynchronous approach, matching the way assets like CSS and images are loaded in the browser, was clearly required.&lt;/p&gt;
+&lt;p&gt;That&#39;s where ES Modules come in. They implement something called &#39;top level await&#39;, which is basically just a way of saying &amp;quot;You know how &lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await&quot;&gt;&lt;code&gt;await&lt;/code&gt;&lt;/a&gt; works? Every ES Module is by default wrapped in that.&amp;quot;&lt;/p&gt;
+&lt;h3 id=&quot;but-it-s-not-just-synchronous-vs-asynchronous&quot; tabindex=&quot;-1&quot;&gt;But it&#39;s Not Just Synchronous vs. Asynchronous &lt;a class=&quot;header-anchor&quot; href=&quot;https://wadearmstrong.com/things/commonjs_esmodules_test-natively/&quot;&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;Understanding synchronous vs. asynchronous is a good first step, but the real difference under the hood — and the reason why you want to test natively in whatever exports approach your build chain uses — comes down to the consequences of being synchronous or asynchronous.&lt;/p&gt;
+&lt;p&gt;Imagine your Javascript interpreter parsing a single file. It hits a line like:&lt;/p&gt;
+&lt;pre class=&quot;language-javascript&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;let&lt;/span&gt; foo &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;47&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The interpreter can then:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Allocate memory for the value of &lt;code&gt;foo&lt;/code&gt; to inhabit&lt;/li&gt;
+&lt;li&gt;Populate that memory with &lt;code&gt;47&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Move on and be done with it&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Nice and simple, right? But what if the value &lt;code&gt;47&lt;/code&gt; isn&#39;t there yet?&lt;/p&gt;
+&lt;pre class=&quot;language-javascript&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;let&lt;/span&gt; foo &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;await&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;fetchFortySeven&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;If you&#39;ve used &lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise&quot;&gt;&lt;code&gt;Promises&lt;/code&gt;&lt;/a&gt; before, you&#39;ll know that the interpreter works more like:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Allocate memory for the value of &lt;code&gt;foo&lt;/code&gt; to inhabit&lt;/li&gt;
+&lt;li&gt;Populate that memory with a Promise&lt;/li&gt;
+&lt;li&gt;Move on to the next thing&lt;/li&gt;
+&lt;li&gt;Check periodically in the Event Loop for the Promise to be fulfilled&lt;/li&gt;
+&lt;li&gt;...&lt;/li&gt;
+&lt;li&gt;...&lt;/li&gt;
+&lt;li&gt;Now finally populate the memory with &lt;code&gt;47&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;This pretty much describes the under-the-hood difference between CJS and ESM.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;CJS immediately and synchronously processes all exports and sets their value in memory at that time&lt;/li&gt;
+&lt;li&gt;ESM asynchronously processes all exports and sets their value in memory when all required processes (loading, calculating, etc.) have been completed&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;As a consequence of this:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;CJS exports &lt;em&gt;can never&lt;/em&gt; be recalculated during a given execution; they are what they are at the initial export time. So, if you have a module that exports a default; waits for a Promise to resolve; then exports the new value, the CJS import will only ever get the default value.&lt;/li&gt;
+&lt;li&gt;ESM exports &lt;em&gt;can&lt;/em&gt; be recalculated during a given execution. In the previous example, the exported value would change during the execution, and you would be able to access the new value.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;an-esm-testing-toolchain&quot; tabindex=&quot;-1&quot;&gt;An ESM Testing Toolchain &lt;a class=&quot;header-anchor&quot; href=&quot;https://wadearmstrong.com/things/commonjs_esmodules_test-natively/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Obviously this means that you need to be careful in testing — you want to write tests that check the &lt;em&gt;actual&lt;/em&gt; value the code will produce in production, and it&#39;s a problem if the tests assume the value will never change and it does (or vice versa). So stick to a testing toolchain that natively uses whatever module format your build chain exports.&lt;/p&gt;
+&lt;p&gt;Facebook&#39;s excellent Jest testing framework &lt;a href=&quot;https://jestjs.io/docs/ecmascript-modules&quot;&gt;does not yet support ES Modules well&lt;/a&gt;, so, while it&#39;s a great choice for CJS build chains, you should avoid it for ESM.&lt;/p&gt;
+&lt;p&gt;For ES Modules, I like the Mocha framework, which has &lt;a href=&quot;https://mochajs.org/#nodejs-native-esm-support&quot;&gt;supported ESM since mid-2020&lt;/a&gt;. It doesn&#39;t offer all of the great React-specific features you get for free in Jest, but it&#39;s a solid, flexible, and fast framework.&lt;/p&gt;
+&lt;p&gt;Now you know the difference between ES Modules and CommonJS. Go out, and reuse your code!&lt;/p&gt;
+&lt;hr class=&quot;footnotes-sep&quot;&gt;
+&lt;section class=&quot;footnotes&quot;&gt;
+&lt;ol class=&quot;footnotes-list&quot;&gt;
+&lt;li id=&quot;fn1&quot; class=&quot;footnote-item&quot;&gt;&lt;p&gt;And you may have, depending on the npm modules you use. &lt;a href=&quot;https://wadearmstrong.com/things/commonjs_esmodules_test-natively/&quot; class=&quot;footnote-backref&quot;&gt;↩︎&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&quot;fn2&quot; class=&quot;footnote-item&quot;&gt;&lt;p&gt;You&#39;re basically using CJS and &lt;code&gt;require&lt;/code&gt;ing external files to give you the ESM interfaces, and your build chain will need to reflect that you&#39;re using both, so you&#39;d really better be determined to mix it up! &lt;a href=&quot;https://wadearmstrong.com/things/commonjs_esmodules_test-natively/&quot; class=&quot;footnote-backref&quot;&gt;↩︎&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&quot;fn3&quot; class=&quot;footnote-item&quot;&gt;&lt;p&gt;The syntax for CJS is also, to my eyes at least, &lt;a href=&quot;https://requirejs.org/docs/whyamd.html#amd&quot;&gt;cleaner than that of an early competitor, AMD&lt;/a&gt; &lt;a href=&quot;https://wadearmstrong.com/things/commonjs_esmodules_test-natively/&quot; class=&quot;footnote-backref&quot;&gt;↩︎&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/section&gt;
+</content>
+	</entry>
+	
+	<entry>
+		<title>How to Start a Ticket</title>
+		<link href="https://wadearmstrong.com/things/How%20to%20Start%20a%20Ticket/"/>
+		<updated>2023-05-12T00:00:00Z</updated>
+		<id>https://wadearmstrong.com/things/How%20to%20Start%20a%20Ticket/</id>
+		<content type="html">&lt;h1 id=&quot;how-to-start-a-ticket&quot; tabindex=&quot;-1&quot;&gt;How to Start a Ticket &lt;a class=&quot;header-anchor&quot; href=&quot;https://wadearmstrong.com/things/How%20to%20Start%20a%20Ticket/&quot;&gt;#&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;With just an hour or two of work up-front, it&#39;s possible to avoid many of the reasons stories become frustrating and unpleasant. Don&#39;t get your PRs kicked back; do your work up front.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Get All the Answers.&lt;/strong&gt; Product and UX&#39;s job is to help you resolve all the edge cases. Make sure you understand:&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;What to do if operations fail (bad user input, bad API response, bad login state, etc.)&lt;/li&gt;
+&lt;li&gt;What device types you need to make this work on&lt;/li&gt;
+&lt;li&gt;Confirm that any changed text, links, etc., is actually meant to change and not a typo&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol start=&quot;2&quot;&gt;
+&lt;li&gt;&lt;strong&gt;Did someone else do it before?&lt;/strong&gt; If your goal is not to create something totally new in the codebase, then it&#39;s possible that others have done something similar before. Even if you&#39;re doing something new, it may be that other people have had to deal with the same interfaces in completing their tickets. Searching completed tickets for some of the keywords in your ticket can often reveal past pull requests that can act as signposts on your path, or even give you some of the code you need. It&#39;s not cheating, it&#39;s understanding the codebase and applying past best practices.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Assess ways to do the ticket.&lt;/strong&gt; Read the code and understand how things work in the module (if you&#39;re developing something from scratch, find similar things and understand how they work). If you want to discuss your approach with others, one option is to outline multiple options in ticket comments and direct the discussion there. It may also help to draw pictures at this stage.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Consult a Colleague.&lt;/strong&gt; Ask someone what they think of your approaches. Senior and Principal Engineers are specifically paid to do these things, so don&#39;t be shy about asking them. If you&#39;re not co-located, tag them in the ticket comments (make sure to communicate out-of-band so they expect it). Agree on a preferred approach.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Go to a Domain Expert.&lt;/strong&gt; If another team often works with this kind of code , then reach out to validate your approach.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Document the Chosen Approach.&lt;/strong&gt; Describe the approach in the ticket comments. This comment doesn&#39;t need to be all-encompassing, but, if someone finds the ticket in 8 months and needs to do the same thing, they should be able to get a good start from your comment.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&quot;faq&quot; tabindex=&quot;-1&quot;&gt;FAQ &lt;a class=&quot;header-anchor&quot; href=&quot;https://wadearmstrong.com/things/How%20to%20Start%20a%20Ticket/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;h3 id=&quot;do-i-need-to-do-this-every-time&quot; tabindex=&quot;-1&quot;&gt;Do I need to do this every time? &lt;a class=&quot;header-anchor&quot; href=&quot;https://wadearmstrong.com/things/How%20to%20Start%20a%20Ticket/&quot;&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;No, it&#39;s certainly too much effort for 1-day tickets, but the effort&#39;s worth it for anything you&#39;ll work on for longer.&lt;/p&gt;
+&lt;h3 id=&quot;seriously-this-seems-like-it-would-make-tickets-take-longer&quot; tabindex=&quot;-1&quot;&gt;Seriously, this seems like it would make tickets take longer &lt;a class=&quot;header-anchor&quot; href=&quot;https://wadearmstrong.com/things/How%20to%20Start%20a%20Ticket/&quot;&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;What really take a long time, both in terms of how much of a given sprint it takes up and, maybe more importantly, in terms of &lt;em&gt;how long it feels&lt;/em&gt;, is when a ticket gets kicked back multiple times from code review.&lt;/p&gt;
+&lt;p&gt;Think of this as a way to push all your mistakes to early in the process, when they can be redone cheaply:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Changing your mind in a conversation is easier than changing code&lt;/li&gt;
+&lt;li&gt;Drawing a new line or a new entity on a whiteboard is easier than changing code&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Don&#39;t let yourself get bogged down, but, if you expect a ticket to take a few days, what&#39;s the downside of spending a couple hours up front?&lt;/p&gt;
+&lt;h3 id=&quot;shouldn-t-the-organization-trust-me-to-plan-my-story-on-my-own&quot; tabindex=&quot;-1&quot;&gt;Shouldn&#39;t the organization trust me to plan my story on my own? &lt;a class=&quot;header-anchor&quot; href=&quot;https://wadearmstrong.com/things/How%20to%20Start%20a%20Ticket/&quot;&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;Sure, and they also trust you to execute the plan and write code. But most orgs also have code review, because we&#39;re all, together, smarter than any one of us, individually. Think of the above as &amp;quot;idea review&amp;quot;.&lt;/p&gt;
+&lt;h3 id=&quot;i-don-t-want-to-ask-dumb-questions-of-senior-engineers-that-makes-me-feel-dumb&quot; tabindex=&quot;-1&quot;&gt;I don&#39;t want to ask dumb questions of Senior Engineers, that makes me feel dumb. &lt;a class=&quot;header-anchor&quot; href=&quot;https://wadearmstrong.com/things/How%20to%20Start%20a%20Ticket/&quot;&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;Answering those questions is literally in their job description, and they&#39;re literally evaluated on how well (and positively!) they answer them. You should never be made to feel dumb. If you are, let your manager know.&lt;/p&gt;
+&lt;h3 id=&quot;so-i-can-ask-any-dumb-question-then&quot; tabindex=&quot;-1&quot;&gt;So I can ask any dumb question, then? &lt;a class=&quot;header-anchor&quot; href=&quot;https://wadearmstrong.com/things/How%20to%20Start%20a%20Ticket/&quot;&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;Ask your best question. Do enough research that you&#39;re comfortable you have a specific question that, when answered, will lead you forward. Some advice on asking good questions: &lt;a href=&quot;https://stackoverflow.com/help/how-to-ask&quot;&gt;1&lt;/a&gt; &lt;a href=&quot;https://medium.com/@dan_abramov/asking-good-questions-421f08ee7e5c&quot;&gt;2&lt;/a&gt;, &lt;a href=&quot;https://medium.com/@gordon_zhu/how-to-be-great-at-asking-questions-e37be04d0603&quot;&gt;3&lt;/a&gt;, &lt;a href=&quot;http://www.catb.org/~esr/faqs/smart-questions.html&quot;&gt;4&lt;/a&gt;, &lt;a href=&quot;https://codeblog.jonskeet.uk/2012/11/24/stack-overflow-question-checklist/&quot;&gt;5&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Your best question probably expresses less understanding of a topic than a subject matter expert would have. If you knew all that SME knew, you wouldn&#39;t have a question (and you&#39;d be the SME). Don&#39;t worry that you know less.&lt;/p&gt;
+&lt;h3 id=&quot;what-do-i-do-if-i-get-an-answer&quot; tabindex=&quot;-1&quot;&gt;What do I do if I get an answer? &lt;a class=&quot;header-anchor&quot; href=&quot;https://wadearmstrong.com/things/How%20to%20Start%20a%20Ticket/&quot;&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;Document it! In the ticket comments, if it&#39;s trivial; if you think it would be useful to other people, in the permanent documentation, such as a wiki or generated docs. If you&#39;re not sure, you probably have your own page on a wiki, so put it there. Documenting things you learn helps you not have to ask the same questions again and again, which makes you faster and happier. Soon, you&#39;ll be the expert!&lt;/p&gt;
+&lt;h3 id=&quot;that-s-a-lot-of-documentation&quot; tabindex=&quot;-1&quot;&gt;That&#39;s a lot of documentation! &lt;a class=&quot;header-anchor&quot; href=&quot;https://wadearmstrong.com/things/How%20to%20Start%20a%20Ticket/&quot;&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;Would you rather write a few comments or have people keep asking you what&#39;s going on? Thought so.&lt;/p&gt;
+</content>
+	</entry>
+	
+	<entry>
+		<title>Title Here</title>
+		<link href="https://wadearmstrong.com/things/FrontMatter.tmpl/"/>
+		<updated>2023-05-12T00:00:00Z</updated>
+		<id>https://wadearmstrong.com/things/FrontMatter.tmpl/</id>
+		<content type="html"></content>
+	</entry>
 	
 	<entry>
 		<title>CommonJS, ES Modules, and Why to Test Natively in One or the Other</title>
@@ -89,6 +259,350 @@
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;/section&gt;
+</content>
+	</entry>
+	
+	<entry>
+		<title>Console Log vs. Breakpoint</title>
+		<link href="https://wadearmstrong.com/things/console-log_vs_breakpoint/"/>
+		<updated>2020-02-11T00:00:00Z</updated>
+		<id>https://wadearmstrong.com/things/console-log_vs_breakpoint/</id>
+		<content type="html">&lt;h1 id=&quot;console-log-vs-breakpoint&quot; tabindex=&quot;-1&quot;&gt;Console Log vs. Breakpoint &lt;a class=&quot;header-anchor&quot; href=&quot;https://wadearmstrong.com/things/console-log_vs_breakpoint/&quot;&gt;#&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;I &lt;code&gt;console.log&lt;/code&gt; a lot. And I know that’s not always classy. Folks look at me crosswise because I don’t open up a debugger — and all Web browsers have quite good debuggers these days&lt;sup class=&quot;footnote-ref&quot;&gt;&lt;a href=&quot;https://wadearmstrong.com/things/console-log_vs_breakpoint/&quot; id=&quot;fnref1&quot;&gt;[1]&lt;/a&gt;&lt;/sup&gt; — but here’s the thing: it’s not just that I’m old-fashioned (although I am, and I certainly started developing well before decent in-browser debuggers), there’s acutally something about &lt;code&gt;console.log&lt;/code&gt;ging (or fmt.printlning or echoing) that’s different than using a debugger. Logging out your code’s state is debugging from a specific perspective; using your browser debugger actually moves you to a different perspective.&lt;/p&gt;
+&lt;h3 id=&quot;how-perspectives-work&quot; tabindex=&quot;-1&quot;&gt;How Perspectives Work &lt;a class=&quot;header-anchor&quot; href=&quot;https://wadearmstrong.com/things/console-log_vs_breakpoint/&quot;&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;In the social sciences&lt;sup class=&quot;footnote-ref&quot;&gt;&lt;a href=&quot;https://wadearmstrong.com/things/console-log_vs_breakpoint/&quot; id=&quot;fnref2&quot;&gt;[2]&lt;/a&gt;&lt;/sup&gt;, there’s this concept of &amp;quot;framing.&amp;quot; A &amp;quot;frame&amp;quot; is a filter, more or less, through which we all take in and analyze information. Some filters are basic and come from our experiences in nature — &amp;quot;Mom is good, this smells like Mom, it must be good&amp;quot; — but most are socially-constructed — &amp;quot;Eating fat makes me fat, so I’ll choose the 90% lean ground beef over the 10% fat ground beef.&amp;quot;&lt;sup class=&quot;footnote-ref&quot;&gt;&lt;a href=&quot;https://wadearmstrong.com/things/console-log_vs_breakpoint/&quot; id=&quot;fnref3&quot;&gt;[3]&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+&lt;p&gt;While the filter itself is an abstract entity, neuropsychologists have considerable evidence that something much like frames actually exists in your brain. The Spreading Activation Theory holds that the likelihood an individual retrieves a memory is directly proportional to the strength of the connections to that memory. Think of memory like a graph, with nodes connected in the center as a crazy-quilt, but out at the edges as trees, with memory retrieval starting at the center. Each node on the graph is connected more strongly or more weakly to its neighbors; heck, think of components of memory as having PageRank. To get to a node on the edge, you need the path from the center to that edge to have sufficient strength throughout to get you there; but, once far enough down a path, the connections from a given node in that path to a node in a completely different path are much weaker than the within-path connections.&lt;/p&gt;
+&lt;p&gt;A graph, showing a few childhood memories networked together, with GI Joe&#39;s Lt. Falcon way out on his own connected only to GI Joe, while other nodes are linked to each other&lt;/p&gt;
+&lt;p&gt;Here’s a trivial example: my childhood memories. Look how many paths there are to get from my happy memories of playing to my traumatic memory of crashing my bike. But you have to activate a specific path to get to my memories of my GI Joe Lt. Falcon action figure.&lt;/p&gt;
+&lt;p&gt;What that means for all of us is that, when we get far enough down our semantic network, only one frame is available to us; others are just too weakly-connected to flip over to, at least not without significant mental effort. This happened to me in a job interview once — I was working on GDPR compliance at my old job, so was thinking about privacy of PII. My interviewer asked me how to keep a variable’s value private in Javascript in the browser. The correct answer was &amp;quot;using a closure,&amp;quot; but, focused on the GDPR frame, I said something like &amp;quot;once you send it to the browser, man, everyone can see it! It’s the wild west out there! There’s no privacy.&amp;quot;&lt;sup class=&quot;footnote-ref&quot;&gt;&lt;a href=&quot;https://wadearmstrong.com/things/console-log_vs_breakpoint/&quot; id=&quot;fnref4&quot;&gt;[4]&lt;/a&gt;&lt;/sup&gt; The concept of &amp;quot;private&amp;quot; was framed in my mind as &amp;quot;information,&amp;quot; not &amp;quot;variable private to a given function or method,&amp;quot; so I missed it.&lt;/p&gt;
+&lt;p&gt;This is all a long way of saying that the frame you use to filter information from the world around you absolutely neurologically limits your ability to think about that information in a different way. But, when we’re stuck on a programming (or, really, any life) challenge, thinking about the problem in a different way is essential to moving forward.&lt;/p&gt;
+&lt;h3 id=&quot;the-debugger-perspective&quot; tabindex=&quot;-1&quot;&gt;The Debugger Perspective &lt;a class=&quot;header-anchor&quot; href=&quot;https://wadearmstrong.com/things/console-log_vs_breakpoint/&quot;&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;It’s kind of obvious where I’m going here: using a debugger gives you a specific frame through which you look at the world. To be more exact, it gives you the frame of looking at the code from the outside.&lt;/p&gt;
+&lt;p&gt;Which is great! This allows us all to use debuggers to understand code we have no business understanding. Third-party library? No problem! Spooky behavior potentially caused by the platform not adhering to the spec? I can figure that out!&lt;/p&gt;
+&lt;p&gt;But it is that divorced-from-the-source-code frame, and it’s hard to get back into the code directly from the debugger. Not physically, since usually there’s a line number or even a link to the line in your IDE; but in your mental model. You need to store lots of state in your head: information of where you’re looking in your code; what drives the execution of that code; which inputs you care about; and more.&lt;/p&gt;
+&lt;p&gt;Debugging is thus great if you have something behaving wrong and you don’t know why. You can use its frame to evacuate presuppositions from your head and look fresh from the outside.&lt;/p&gt;
+&lt;h3 id=&quot;the-logging-perspective&quot; tabindex=&quot;-1&quot;&gt;The Logging Perspective &lt;a class=&quot;header-anchor&quot; href=&quot;https://wadearmstrong.com/things/console-log_vs_breakpoint/&quot;&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;But, look, sometimes everything is going great. You’re writing code, you’re on a roll, but you need to know: what is the shape of this data here? Do these two lines really execute out-of-order? We fall into that branch, right?&lt;/p&gt;
+&lt;p&gt;Then your perspective is inside the code. And what works well in that frame? Well, logging out the data that you need. Yeah, in a lot of cases you can set a breakpoint and watch what’s going on around that, but the point is that you don’t need a generic act that might give you all different kinds of information: you need to specifically get the piece of data you want.&lt;/p&gt;
+&lt;p&gt;Logging gives you complete control of that. It defines the frame as &amp;quot;I’m here, what’s the situation with ?&amp;quot;&lt;/p&gt;
+&lt;p&gt;Logging is also great when you’re refactoring. Want to make sure you’re still executing a step in some complex branching process that all flows back together in the end? Well, step through dozens of operations… or just put one &lt;code&gt;console.log(&#39;in interestingFunction()&#39;)&lt;/code&gt; in the right place. Doesn’t matter how you change your branching structure, you don’t have to keep track of where you want to set the breakpoint, you just get the informtion you need, when it’s available.&lt;/p&gt;
+&lt;h3 id=&quot;can-t-we-all-just-get-along&quot; tabindex=&quot;-1&quot;&gt;Can’t We All Just Get Along? &lt;a class=&quot;header-anchor&quot; href=&quot;https://wadearmstrong.com/things/console-log_vs_breakpoint/&quot;&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;I may be a bad developer, but it’s not because I &lt;code&gt;console.log()&lt;/code&gt; things a lot. You may be a good developer, but it’s not because you’re better with a debugger than I am.&lt;sup class=&quot;footnote-ref&quot;&gt;&lt;a href=&quot;https://wadearmstrong.com/things/console-log_vs_breakpoint/&quot; id=&quot;fnref5&quot;&gt;[5]&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+&lt;p&gt;But one part of what makes us good developers is our ability to look at problems in effective ways. So keep in mind the ways that you can use these two different debugging techniques to frame your approach to the problem in different ways. That gives you one more tool in your belt.&lt;/p&gt;
+&lt;hr class=&quot;footnotes-sep&quot;&gt;
+&lt;section class=&quot;footnotes&quot;&gt;
+&lt;ol class=&quot;footnotes-list&quot;&gt;
+&lt;li id=&quot;fn1&quot; class=&quot;footnote-item&quot;&gt;&lt;p&gt;Rest not in peace, IE11 Developer Tools! &lt;a href=&quot;https://wadearmstrong.com/things/console-log_vs_breakpoint/&quot; class=&quot;footnote-backref&quot;&gt;↩︎&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&quot;fn2&quot; class=&quot;footnote-item&quot;&gt;&lt;p&gt;Developers should spend a lot more time reading social sciences &lt;a href=&quot;https://wadearmstrong.com/things/console-log_vs_breakpoint/&quot; class=&quot;footnote-backref&quot;&gt;↩︎&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&quot;fn3&quot; class=&quot;footnote-item&quot;&gt;&lt;p&gt;Yes, the frame is tricking the speaker there. Frames do that a lot &lt;a href=&quot;https://wadearmstrong.com/things/console-log_vs_breakpoint/&quot; class=&quot;footnote-backref&quot;&gt;↩︎&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&quot;fn4&quot; class=&quot;footnote-item&quot;&gt;&lt;p&gt;And yet, they hired me &lt;a href=&quot;https://wadearmstrong.com/things/console-log_vs_breakpoint/&quot; class=&quot;footnote-backref&quot;&gt;↩︎&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&quot;fn5&quot; class=&quot;footnote-item&quot;&gt;&lt;p&gt;I use my debugger all the time, so you might not be &lt;a href=&quot;https://wadearmstrong.com/things/console-log_vs_breakpoint/&quot; class=&quot;footnote-backref&quot;&gt;↩︎&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/section&gt;
+</content>
+	</entry>
+	
+	<entry>
+		<title>Sample Code Review Checklist</title>
+		<link href="https://wadearmstrong.com/things/sample_code_review_checklist/"/>
+		<updated>2019-10-02T00:00:00Z</updated>
+		<id>https://wadearmstrong.com/things/sample_code_review_checklist/</id>
+		<content type="html">&lt;h1 id=&quot;sample-code-review-checklist&quot; tabindex=&quot;-1&quot;&gt;Sample Code Review Checklist &lt;a class=&quot;header-anchor&quot; href=&quot;https://wadearmstrong.com/things/sample_code_review_checklist/&quot;&gt;#&lt;/a&gt;&lt;/h1&gt;
+&lt;h2 id=&quot;for-the-developer&quot; tabindex=&quot;-1&quot;&gt;For the Developer &lt;a class=&quot;header-anchor&quot; href=&quot;https://wadearmstrong.com/things/sample_code_review_checklist/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;h3 id=&quot;developing-good-code&quot; tabindex=&quot;-1&quot;&gt;Developing Good Code &lt;a class=&quot;header-anchor&quot; href=&quot;https://wadearmstrong.com/things/sample_code_review_checklist/&quot;&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Your code should comply with the Code Standards.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;before-you-pr&quot; tabindex=&quot;-1&quot;&gt;Before You PR &lt;a class=&quot;header-anchor&quot; href=&quot;https://wadearmstrong.com/things/sample_code_review_checklist/&quot;&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;A good code review starts with a good pull request. Before you find yourself a reviewer for your code, make sure:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Things that need docblocks have docblocks, and existing docblocks are up-to-date&lt;/li&gt;
+&lt;li&gt;Existing tests pass&lt;/li&gt;
+&lt;li&gt;All new code has unit tests&lt;/li&gt;
+&lt;li&gt;You&#39;ve removed &lt;code&gt;console.log()&lt;/code&gt; and &lt;code&gt;var_dump()&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;There&#39;s no commented-out code&lt;/li&gt;
+&lt;li&gt;Your code builds successfully&lt;/li&gt;
+&lt;li&gt;Your code does what it says on the label (if you have any concerns whether or not your code works, get someone from QE to educate you on the use cases you&#39;re developing for)&lt;/li&gt;
+&lt;li&gt;You pulled from master, and resolved any merge conflicts&lt;/li&gt;
+&lt;li&gt;You cleaned up your git timeline (commit, and even push, often; but only keep meaningful commits, that are also safe to roll back to, in the log)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;If you haven&#39;t done all of the above, then you won&#39;t get a code review -- your work will just get kicked back to you. Spend your time, and your reviewer&#39;s time, well, and do all of these first. Ask for help if you need it.&lt;/p&gt;
+&lt;h3 id=&quot;after-you-open-your-pr-but-before-you-get-a-reviewer&quot; tabindex=&quot;-1&quot;&gt;After You Open Your PR, but Before You Get a Reviewer &lt;a class=&quot;header-anchor&quot; href=&quot;https://wadearmstrong.com/things/sample_code_review_checklist/&quot;&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Have you marked up your PR in order that people who haven&#39;t worked with the problem can easily understand your code?
+&lt;ul&gt;
+&lt;li&gt;All non-obvious pieces of code have a note on what they do and why&lt;/li&gt;
+&lt;li&gt;If particular pieces of code match to particular requirements, explain how&lt;/li&gt;
+&lt;li&gt;Any kludges are explained, especially why this kludge is actually the best option&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;If any TODOs are left, make sure you&#39;ve opened tickets for them, and comment on them in the PR (on specific lines that make the need for these new tickets clear, if possible)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;getting-a-reviewer&quot; tabindex=&quot;-1&quot;&gt;Getting a Reviewer &lt;a class=&quot;header-anchor&quot; href=&quot;https://wadearmstrong.com/things/sample_code_review_checklist/&quot;&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Pick one randomly&lt;/li&gt;
+&lt;li&gt;Don&#39;t review your own ticket&lt;/li&gt;
+&lt;li&gt;If you think an SME should see your ticket, tag them&lt;/li&gt;
+&lt;li&gt;Make sure your reviewer(s) know they&#39;re on the hook&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;for-the-reviewer&quot; tabindex=&quot;-1&quot;&gt;For the Reviewer &lt;a class=&quot;header-anchor&quot; href=&quot;https://wadearmstrong.com/things/sample_code_review_checklist/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;h3 id=&quot;before-you-review&quot; tabindex=&quot;-1&quot;&gt;Before You Review &lt;a class=&quot;header-anchor&quot; href=&quot;https://wadearmstrong.com/things/sample_code_review_checklist/&quot;&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;If you&#39;re the named reviewer, it&#39;s your job to make the review work:
+&lt;ul&gt;
+&lt;li&gt;All PRs take 2 approvers; if there&#39;s only 1 assigned, get another&lt;/li&gt;
+&lt;li&gt;If you know of an SME for the codebase, see if they&#39;ll do a review&lt;/li&gt;
+&lt;li&gt;Once you and another person have signed off, move the ticket to Pre-UAT&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Block out at least 1 hour&lt;/li&gt;
+&lt;li&gt;Read the ticket and make sure you understand the requirements&lt;/li&gt;
+&lt;li&gt;You should be able to trust that the code is fit for purpose, so spend time reviewing the written code rather than exercising the code in execution. But, if in doubt, pull and run the code.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;early-returns-are-good-even-in-code-review&quot; tabindex=&quot;-1&quot;&gt;Early Returns are Good, Even In Code Review &lt;a class=&quot;header-anchor&quot; href=&quot;https://wadearmstrong.com/things/sample_code_review_checklist/&quot;&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;If any of the below are true, mark the code as Needs Work and bounce it right back:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Existing tests don&#39;t pass&lt;/li&gt;
+&lt;li&gt;No tests for new code&lt;/li&gt;
+&lt;li&gt;Tests are unreadable&lt;/li&gt;
+&lt;li&gt;Merge conflicts, no matter how trivial&lt;/li&gt;
+&lt;li&gt;Git log is a mess&lt;/li&gt;
+&lt;li&gt;Lots of &lt;code&gt;console.log()&lt;/code&gt; or &lt;code&gt;var_dump()&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Lots of commented-out code&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;giving-good-code-review&quot; tabindex=&quot;-1&quot;&gt;Giving Good Code Review &lt;a class=&quot;header-anchor&quot; href=&quot;https://wadearmstrong.com/things/sample_code_review_checklist/&quot;&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;You should be able to understand how the code works, and why, by the end of your review&lt;/li&gt;
+&lt;li&gt;Ask any questions you have within Stash; the other reviewers may have the same thought&lt;/li&gt;
+&lt;li&gt;No comment or question is too small, but&lt;/li&gt;
+&lt;li&gt;Read the code before asking how something works, even if it&#39;s code from another module&lt;/li&gt;
+&lt;li&gt;Do the math/logic to make sure that all permutations of code flow are being tested&lt;/li&gt;
+&lt;li&gt;Attend to the Code Standards as you look at the code; you may want to keep a checklist&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;further-reading&quot; tabindex=&quot;-1&quot;&gt;Further Reading &lt;a class=&quot;header-anchor&quot; href=&quot;https://wadearmstrong.com/things/sample_code_review_checklist/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://blog.fogcreek.com/increase-defect-detection-with-our-code-review-checklist-example/&quot;&gt;Fog Creek&#39;s &#39;Stop More Bugs with our Code Review Checklist&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://blog.codinghorror.com/code-smells/&quot;&gt;Jeff Atwood&#39;s &#39;Code Smells&#39;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://blog.smartbear.com/development/creating-your-code-review-checklist/&quot;&gt;&#39;Creating Your Code Review Checklist&#39; from SmartBear&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://dev.to/codemouse92/10-principles-of-a-good-code-review-2eg&quot;&gt;10 Principles of a Good Code Review&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://dev.to/samjarman/giving-and-receiving-great-code-reviews&quot;&gt;Giving and Receiving Great Code Reviews&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://blog.scottnonnenberg.com/top-ten-pull-request-review-mistakes/&quot;&gt;Top 10 Pull Request Review Mistakes&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+	</entry>
+	
+	<entry>
+		<title>Why To Use SSH ProxyCommand</title>
+		<link href="https://wadearmstrong.com/things/why_to_use_ssh_proxy-command/"/>
+		<updated>2019-09-14T00:00:00Z</updated>
+		<id>https://wadearmstrong.com/things/why_to_use_ssh_proxy-command/</id>
+		<content type="html">&lt;h1 id=&quot;you-should-switch-to-proxycommmand-with-ssh&quot; tabindex=&quot;-1&quot;&gt;You Should Switch to ProxyCommmand With SSH &lt;a class=&quot;header-anchor&quot; href=&quot;https://wadearmstrong.com/things/why_to_use_ssh_proxy-command/&quot;&gt;#&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;SSH forwarding is great, but ProxyCommand lets you actually script how to make multiple jumps to get to a box.&lt;/p&gt;
+&lt;p&gt;To set it up, do the following:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Copy your public key to all the places you want it&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;You may want to put your public key in puppet, but iff you put your &lt;em&gt;private&lt;/em&gt; key in puppet, then everyone with access to Puppet can see it, so... no
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;mkdir .ssh&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;vim .ssh/authorized_keys&lt;/code&gt; and paste your private key there&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol start=&quot;2&quot;&gt;
+&lt;li&gt;On your laptop, create a file that looks like the following file at &lt;code&gt;.ssh/config&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre class=&quot;language-shell&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-shell&quot;&gt;Host foo&lt;br&gt; User warmstrong&lt;br&gt; Hostname foo.yourdomain.dev&lt;br&gt;&lt;br&gt;Host automation&lt;br&gt; User warmstrong&lt;br&gt; Hostname automation.yourdomain.dev&lt;br&gt;&lt;br&gt;Host jump &lt;span class=&quot;token comment&quot;&gt;#this creates a host aliased to &quot;jump&quot;, now you can &quot;ssh jump&quot;&lt;/span&gt;&lt;br&gt; Hostname jumpbox.dom&lt;br&gt; User warmstrong&lt;br&gt; ProxyCommand &lt;span class=&quot;token function&quot;&gt;ssh&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-q&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-W&lt;/span&gt; %h:%p foo &lt;span class=&quot;token comment&quot;&gt;#This means &quot;ssh to this box using foo&quot;&lt;/span&gt;&lt;br&gt;&lt;br&gt;Host admin.other.dom&lt;br&gt; User warmstrong&lt;br&gt; ProxyCommand &lt;span class=&quot;token function&quot;&gt;ssh&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-q&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-W&lt;/span&gt; %h:%p foo &lt;span class=&quot;token comment&quot;&gt;#Using the Hostname(%h) and Port(%p) you&#39;re using anyway, and passing stdio directly through(-W) but hiding errors(-q)&lt;/span&gt;&lt;br&gt;&lt;br&gt;Host uat&lt;br&gt; User warmstrong&lt;br&gt; Hostname uat01.dom&lt;br&gt; ProxyCommand &lt;span class=&quot;token function&quot;&gt;ssh&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-q&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-W&lt;/span&gt; %h:%p jump &lt;span class=&quot;token comment&quot;&gt;#Note that you&#39;re using the named jump box above to go here&lt;/span&gt;&lt;br&gt;&lt;br&gt;Host logrepo&lt;br&gt; User warmstrong&lt;br&gt; Hostname logrepo.dom&lt;br&gt; ProxyCommand &lt;span class=&quot;token function&quot;&gt;ssh&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-q&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-W&lt;/span&gt; %h:%p jump &lt;span class=&quot;token comment&quot;&gt;#SSH will resolve everything in the chain, so it figures out you need jump, jump needs foo, and does all those sshes to get there&lt;/span&gt;&lt;br&gt;&lt;br&gt;Host static-server&lt;br&gt; User warmstrong&lt;br&gt; Hostname static.yourdomain.dom&lt;br&gt; ProxyCommand &lt;span class=&quot;token function&quot;&gt;ssh&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-q&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-W&lt;/span&gt; %h:%p jump &lt;span class=&quot;token comment&quot;&gt;#Fun fact, -W means that this works for scp as well as ssh&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;ol start=&quot;3&quot;&gt;
+&lt;li&gt;You can now ssh directly to &lt;code&gt;uat&lt;/code&gt;, &lt;code&gt;logrepo&lt;/code&gt;, etc. without hitting multiple jump boxen.&lt;/li&gt;
+&lt;/ol&gt;
+</content>
+	</entry>
+	
+	<entry>
+		<title>On-Call Checklist</title>
+		<link href="https://wadearmstrong.com/things/on-call_checklist/"/>
+		<updated>2019-08-24T00:00:00Z</updated>
+		<id>https://wadearmstrong.com/things/on-call_checklist/</id>
+		<content type="html">&lt;p&gt;Did you get called for an issue? This checklist will help you make it through. &lt;em&gt;Do it in order&lt;/em&gt;.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;If you were woken up, they can wait 2 minutes while you start some coffee. Don&#39;t make them wait much longer, but get that coffee started!&lt;/li&gt;
+&lt;li&gt;Join chat. Announce your presence, and what team you&#39;re here for&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Slow down&lt;/em&gt;. Take a few deep breaths.&lt;/li&gt;
+&lt;li&gt;If this is an incident, make sure the Incident Manager (IM) explains to you &lt;em&gt;exactly the current understanding&lt;/em&gt; of what&#39;s happening.&lt;/li&gt;
+&lt;li&gt;If this is not an incident, then &lt;em&gt;feel free to ask NOC to clarify&lt;/em&gt; what they see as going on&lt;/li&gt;
+&lt;li&gt;Remember that you may be able to fix the problem, but &lt;em&gt;your biggest job is to route the problem to other people who can fix it&lt;/em&gt;.&lt;/li&gt;
+&lt;li&gt;Ask questions to confirm that they&#39;re actually dealing with your technology, and not some other part of the stack.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;If you &lt;em&gt;don&#39;t know what the thing is that is erroring&lt;/em&gt;, call the secondary or tertiary. &lt;em&gt;A big part of the on-call job is routing info&lt;/em&gt;.&lt;/li&gt;
+&lt;li&gt;If it&#39;s some other part of the stack, recommend the team or person whom you&#39;d contact outside of an incident; NOC will handle finding the person on-call from that team.&lt;/li&gt;
+&lt;li&gt;If it&#39;s not your tech, share information to help prove it&#39;s not, but &lt;em&gt;stay on for at least a little while&lt;/em&gt; while others confirm. &lt;em&gt;The longer you stay, the more you learn&lt;/em&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol start=&quot;8&quot;&gt;
+&lt;li&gt;Once you know it&#39;s your tech, ask questions to make sure you understand the details of the issue:&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;On what pages?&lt;/li&gt;
+&lt;li&gt;On what part of the app?&lt;/li&gt;
+&lt;li&gt;What actions have to be taken to cause the issue?&lt;/li&gt;
+&lt;li&gt;What, specifically, is the degradation of user experience?&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol start=&quot;9&quot;&gt;
+&lt;li&gt;If, at this time, &lt;em&gt;you don&#39;t understand what&#39;s going on&lt;/em&gt; or &lt;em&gt;don&#39;t understand the technology,&lt;/em&gt; call your backup (or the tertiary)&lt;/li&gt;
+&lt;li&gt;Make sure that you agree this is a real emergency. If you don&#39;t think the degradation is that serious, speak up and explain why. You may be right, you&#39;re the expert!&lt;/li&gt;
+&lt;li&gt;Take some more deep breaths. Look away from the screen. Make sure you have water/caffeinated beverage/etc. Take a sip. &lt;em&gt;Slow down&lt;/em&gt;.&lt;/li&gt;
+&lt;li&gt;Remember that you may be able to fix the problem, but &lt;em&gt;your biggest job is to route the problem to other people who can fix it&lt;/em&gt;.&lt;/li&gt;
+&lt;li&gt;If it is an emergency, find specifically what component is the problem.&lt;/li&gt;
+&lt;li&gt;As you&#39;re working, if you&#39;re unsure about anything, ask the IM, or anyone else whom you recognize/trust, offline. &lt;em&gt;Everyone wants to help&lt;/em&gt;!&lt;/li&gt;
+&lt;li&gt;When looking for causes, note that, &lt;em&gt;during an emergency, only 2 things can be done&lt;/em&gt;, so focus on solutions involving these:&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;Roll back a release, so look for changes in the most recent release&lt;/li&gt;
+&lt;li&gt;Override a config, so look for ways to turn off the problematic feature&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol start=&quot;16&quot;&gt;
+&lt;li&gt;If you have a fix you&#39;re confident in, &lt;em&gt;speak up&lt;/em&gt;.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;It&#39;s the IM&#39;s job to decide to do the fix or not, so give them the information!&lt;/li&gt;
+&lt;li&gt;Remember you&#39;re the most-qualified person, in this particular area&lt;/li&gt;
+&lt;li&gt;Propose the thing, then do it/make sure it gets done&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol start=&quot;17&quot;&gt;
+&lt;li&gt;If you don&#39;t have a fix you&#39;re comfortable in, &lt;em&gt;it&#39;s ok to ask for help&lt;/em&gt; - It&#39;s ok to act as a router, and not to directly fix&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;If asked to implement a solution, or for the information to implement the solution, and you can do it, do it! You don&#39;t need anyone&#39;s approval. Don&#39;t call someone on just because you&#39;re nervous. This is why you get paid the big bucks!&lt;/li&gt;
+&lt;li&gt;If you don&#39;t know the solution, make sure you at least know the problem and solution space, so that you can call in the right help
+&lt;ul&gt;
+&lt;li&gt;If during daytime, call on whomever you&#39;d normally consider to be the SME for that area&lt;/li&gt;
+&lt;li&gt;After-hours, have NOC call the secondary or tertiary, you have backup!&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Remember that you may be able to fix the problem, but &lt;em&gt;your biggest job is to route the problem to other people who can fix it&lt;/em&gt;.&lt;/li&gt;
+&lt;li&gt;If you call in another team member to help, &lt;em&gt;make sure to stick around for the remainder of the incident&lt;/em&gt;, and learn. Your goal should be to:
+&lt;ul&gt;
+&lt;li&gt;Learn enough to do it yourself next time &lt;em&gt;if this is one of the technologies we&#39;re responsible for&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;Learn whom to escalate to, if not&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol start=&quot;18&quot;&gt;
+&lt;li&gt;Write up what you did in the on-call diary&lt;/li&gt;
+&lt;/ol&gt;
+</content>
+	</entry>
+	
+	<entry>
+		<title>Code Standards</title>
+		<link href="https://wadearmstrong.com/things/code_standards/"/>
+		<updated>2019-07-04T00:00:00Z</updated>
+		<id>https://wadearmstrong.com/things/code_standards/</id>
+		<content type="html">&lt;h1 id=&quot;recommended-code-standards&quot; tabindex=&quot;-1&quot;&gt;Recommended Code Standards &lt;a class=&quot;header-anchor&quot; href=&quot;https://wadearmstrong.com/things/code_standards/&quot;&gt;#&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;In my experience, these are standards that make code&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Better&lt;/li&gt;
+&lt;li&gt;Easier-to-maintain&lt;/li&gt;
+&lt;li&gt;More pleasant to deal with&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Try to use these as you write code. While the world is never nice and clean, and you&#39;ll break all of these sometime, try to at least do so consciously (and explain why, in your PR).&lt;/p&gt;
+&lt;h2 id=&quot;core-concepts&quot; tabindex=&quot;-1&quot;&gt;Core Concepts &lt;a class=&quot;header-anchor&quot; href=&quot;https://wadearmstrong.com/things/code_standards/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Maintain a good &lt;a href=&quot;https://medium.com/@matryer/line-of-sight-in-code-186dd7cdea88&quot;&gt;code line of sight&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Keep the happy path obvious&lt;/li&gt;
+&lt;li&gt;Return early&lt;/li&gt;
+&lt;li&gt;Don&#39;t reinvent the wheel&lt;/li&gt;
+&lt;li&gt;Override the least possible, and contribute the most possible back to the core&lt;/li&gt;
+&lt;li&gt;When creating something new, make it possible to override&lt;/li&gt;
+&lt;li&gt;Code should be easy for the next developer to understand&lt;/li&gt;
+&lt;li&gt;Prefer clarity and readability to brilliance or cleverness&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;applying-these-concepts-to-details&quot; tabindex=&quot;-1&quot;&gt;Applying These Concepts To Details &lt;a class=&quot;header-anchor&quot; href=&quot;https://wadearmstrong.com/things/code_standards/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;h3 id=&quot;rules-of-thumb&quot; tabindex=&quot;-1&quot;&gt;Rules of Thumb &lt;a class=&quot;header-anchor&quot; href=&quot;https://wadearmstrong.com/things/code_standards/&quot;&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Rather than&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&quot;language-javascript&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;happy&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;br&gt;  &lt;span class=&quot;token keyword&quot;&gt;do&lt;/span&gt; 1st happy thing&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;br&gt;  &lt;span class=&quot;token operator&quot;&gt;...&lt;/span&gt;&lt;br&gt;  &lt;span class=&quot;token keyword&quot;&gt;do&lt;/span&gt; nth happy thing&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;br&gt;  &lt;span class=&quot;token keyword&quot;&gt;throw&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;tantrum&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;try&lt;/p&gt;
+&lt;pre class=&quot;language-javascript&quot; tabindex=&quot;0&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;!&lt;/span&gt;happy&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;br&gt; &lt;span class=&quot;token keyword&quot;&gt;throw&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;tantrum&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;token keyword&quot;&gt;do&lt;/span&gt; 1st happy thing&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;token operator&quot;&gt;...&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;token keyword&quot;&gt;do&lt;/span&gt; nth happy thing&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;If you do the above, you probably don&#39;t need an &lt;code&gt;else&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;The above is a really good way to &lt;code&gt;return&lt;/code&gt; early, before you do any real work, when you&#39;re outside the happy path&lt;/li&gt;
+&lt;li&gt;If there are several &lt;code&gt;if&lt;/code&gt; s in a row, consider a &lt;code&gt;switch&lt;/code&gt; statement&lt;/li&gt;
+&lt;li&gt;Name things well. Be clear about what data they contain/tasks they do. Related things have related names&lt;/li&gt;
+&lt;li&gt;Always return from functions. Always return the same datatype from a given function&lt;/li&gt;
+&lt;li&gt;Break out reusable behavior into its own function, but&lt;/li&gt;
+&lt;li&gt;Don&#39;t put an excessive number of functions on the call stack&lt;/li&gt;
+&lt;li&gt;Your class should have an interface like similar classes; your function should have a signature like similar functions&lt;/li&gt;
+&lt;li&gt;Make things configurable and those configurations overridable&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;usefulness&quot; tabindex=&quot;-1&quot;&gt;Usefulness &lt;a class=&quot;header-anchor&quot; href=&quot;https://wadearmstrong.com/things/code_standards/&quot;&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Did you really need to override the &lt;em&gt;entire&lt;/em&gt; template?&lt;/li&gt;
+&lt;li&gt;Are any magic numbers set in a config file? Can that config file be overridden?&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;readability&quot; tabindex=&quot;-1&quot;&gt;Readability &lt;a class=&quot;header-anchor&quot; href=&quot;https://wadearmstrong.com/things/code_standards/&quot;&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Are all of your functions explained in docblocks? Do the explanations actually match the current code, and are all parameters actually documented?&lt;/li&gt;
+&lt;li&gt;Do not nest ternaries. Save your logical comparisons in well-named variables and compare those&lt;/li&gt;
+&lt;li&gt;Don&#39;t rely on the next developer to remember the order of arithmetic or logical operations; group parts of statements with parentheses to make your meaning obvious&lt;/li&gt;
+&lt;li&gt;Comments explain &lt;em&gt;why&lt;/em&gt; you did it, not &lt;em&gt;what&lt;/em&gt; it does&lt;/li&gt;
+&lt;li&gt;Functions do one thing&lt;/li&gt;
+&lt;li&gt;Four parameters for a function is probably too many&lt;/li&gt;
+&lt;li&gt;You should be able to read the entire method/function without scrolling&lt;/li&gt;
+&lt;li&gt;Don&#39;t Repeat Yourself&lt;/li&gt;
+&lt;li&gt;Constants are UPPERCASE even if you &lt;code&gt;const&lt;/code&gt; them&lt;/li&gt;
+&lt;li&gt;Write comments just like you&#39;d explain something to another developer; don&#39;t feel like you need to use fancy, formal language&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;performance&quot; tabindex=&quot;-1&quot;&gt;Performance &lt;a class=&quot;header-anchor&quot; href=&quot;https://wadearmstrong.com/things/code_standards/&quot;&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Do you save the value of expensive calculations in a variable, and then reference that variable? Are even cheap calculations not done once per loop iteration when they could be done just once?&lt;/li&gt;
+&lt;li&gt;Do you use temporary variables inside loops, to make it easy to understand what the calculation is?&lt;/li&gt;
+&lt;li&gt;For Javascript, do you declare variables outside loops, and update them inside?&lt;/li&gt;
+&lt;li&gt;Are you sure that loop will end?&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;security&quot; tabindex=&quot;-1&quot;&gt;Security &lt;a class=&quot;header-anchor&quot; href=&quot;https://wadearmstrong.com/things/code_standards/&quot;&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;If you&#39;re accepting input from the user, an API, or another component, do you validate that input is safe and of the right type, length, etc.?&lt;/li&gt;
+&lt;li&gt;If you get bad input, do you handle it well?&lt;/li&gt;
+&lt;li&gt;What happens if this gets passed a string containing Unicode characters? Does it not just handle it, but handle it correctly?&lt;/li&gt;
+&lt;li&gt;What happens if someone passes a &lt;code&gt;&amp;lt;script&amp;gt;&lt;/code&gt; tag into your code?&lt;/li&gt;
+&lt;li&gt;If you&#39;re using PHP, &lt;em&gt;all&lt;/em&gt; DB access should be via PDO. &lt;a href=&quot;https://xkcd.com/327/&quot;&gt;Don&#39;t concatenate your own SQL statement&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;testing&quot; tabindex=&quot;-1&quot;&gt;Testing &lt;a class=&quot;header-anchor&quot; href=&quot;https://wadearmstrong.com/things/code_standards/&quot;&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Do your tests cover both the happy path and &lt;strong&gt;all&lt;/strong&gt; error paths?&lt;/li&gt;
+&lt;li&gt;Do your tests detect breakage?&lt;/li&gt;
+&lt;li&gt;Are your tests brittle? Will they fail if someone changes an html attribute or the order in which attributes are assigned to an object? Do they have to fail under those circumstances?&lt;/li&gt;
+&lt;li&gt;If you&#39;re testing with strings, have you tested with unicode strings?&lt;/li&gt;
+&lt;li&gt;Do your unit tests actually test units, and not modules in integration?&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;cleanliness&quot; tabindex=&quot;-1&quot;&gt;Cleanliness &lt;a class=&quot;header-anchor&quot; href=&quot;https://wadearmstrong.com/things/code_standards/&quot;&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Don&#39;t leave in TODOs, ticket them up&lt;/li&gt;
+&lt;li&gt;Delete commented-out code in a PR&lt;/li&gt;
+&lt;li&gt;Each PR should only include commits that it&#39;s safe to roll back to; squash your commits before making a PR&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;formatting&quot; tabindex=&quot;-1&quot;&gt;Formatting &lt;a class=&quot;header-anchor&quot; href=&quot;https://wadearmstrong.com/things/code_standards/&quot;&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;If writing PHP, generally follow &lt;a href=&quot;https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md&quot;&gt;PSR2&lt;/a&gt;, except for a few things:
+&lt;ul&gt;
+&lt;li&gt;Tabs are clearly superior to spaces, so we use them&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;TRUE&lt;/code&gt;, &lt;code&gt;FALSE&lt;/code&gt;, and &lt;code&gt;NULL&lt;/code&gt; are generally capitalized, although this is not required&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;If writing Javascript, you &lt;em&gt;must&lt;/em&gt; be running &lt;a href=&quot;https://eslint.org/&quot;&gt;ESlint&lt;/a&gt; and using an agreed-upon and shared config. If you do not lint your code then you will be mocked ceaselessly for any style violations&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;variablesAreCamelCase&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;indexes[&#39;are_snake_case&#39;]&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;_&lt;/code&gt; doesn&#39;t actually make your method or variable private so don&#39;t use it&lt;/li&gt;
+&lt;/ul&gt;
 </content>
 	</entry>
 </feed>
