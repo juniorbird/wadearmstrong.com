@@ -127,61 +127,6 @@
 	</entry>
 	
 	<entry>
-		<title>How to Start a Ticket</title>
-		<link href="https://wadearmstrong.com/things/How%20to%20Start%20a%20Ticket/"/>
-		<updated>2023-05-12T00:00:00Z</updated>
-		<id>https://wadearmstrong.com/things/How%20to%20Start%20a%20Ticket/</id>
-		<content type="html">&lt;h1 id=&quot;how-to-start-a-ticket&quot; tabindex=&quot;-1&quot;&gt;How to Start a Ticket &lt;a class=&quot;header-anchor&quot; href=&quot;https://wadearmstrong.com/things/How%20to%20Start%20a%20Ticket/&quot;&gt;#&lt;/a&gt;&lt;/h1&gt;
-&lt;p&gt;With just an hour or two of work up-front, it&#39;s possible to avoid many of the reasons stories become frustrating and unpleasant. Don&#39;t get your PRs kicked back; do your work up front.&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;strong&gt;Get All the Answers.&lt;/strong&gt; Product and UX&#39;s job is to help you resolve all the edge cases. Make sure you understand:&lt;/li&gt;
-&lt;/ol&gt;
-&lt;ul&gt;
-&lt;li&gt;What to do if operations fail (bad user input, bad API response, bad login state, etc.)&lt;/li&gt;
-&lt;li&gt;What device types you need to make this work on&lt;/li&gt;
-&lt;li&gt;Confirm that any changed text, links, etc., is actually meant to change and not a typo&lt;/li&gt;
-&lt;/ul&gt;
-&lt;ol start=&quot;2&quot;&gt;
-&lt;li&gt;&lt;strong&gt;Did someone else do it before?&lt;/strong&gt; If your goal is not to create something totally new in the codebase, then it&#39;s possible that others have done something similar before. Even if you&#39;re doing something new, it may be that other people have had to deal with the same interfaces in completing their tickets. Searching completed tickets for some of the keywords in your ticket can often reveal past pull requests that can act as signposts on your path, or even give you some of the code you need. It&#39;s not cheating, it&#39;s understanding the codebase and applying past best practices.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Assess ways to do the ticket.&lt;/strong&gt; Read the code and understand how things work in the module (if you&#39;re developing something from scratch, find similar things and understand how they work). If you want to discuss your approach with others, one option is to outline multiple options in ticket comments and direct the discussion there. It may also help to draw pictures at this stage.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Consult a Colleague.&lt;/strong&gt; Ask someone what they think of your approaches. Senior and Principal Engineers are specifically paid to do these things, so don&#39;t be shy about asking them. If you&#39;re not co-located, tag them in the ticket comments (make sure to communicate out-of-band so they expect it). Agree on a preferred approach.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Go to a Domain Expert.&lt;/strong&gt; If another team often works with this kind of code , then reach out to validate your approach.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Document the Chosen Approach.&lt;/strong&gt; Describe the approach in the ticket comments. This comment doesn&#39;t need to be all-encompassing, but, if someone finds the ticket in 8 months and needs to do the same thing, they should be able to get a good start from your comment.&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h2 id=&quot;faq&quot; tabindex=&quot;-1&quot;&gt;FAQ &lt;a class=&quot;header-anchor&quot; href=&quot;https://wadearmstrong.com/things/How%20to%20Start%20a%20Ticket/&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
-&lt;h3 id=&quot;do-i-need-to-do-this-every-time&quot; tabindex=&quot;-1&quot;&gt;Do I need to do this every time? &lt;a class=&quot;header-anchor&quot; href=&quot;https://wadearmstrong.com/things/How%20to%20Start%20a%20Ticket/&quot;&gt;#&lt;/a&gt;&lt;/h3&gt;
-&lt;p&gt;No, it&#39;s certainly too much effort for 1-day tickets, but the effort&#39;s worth it for anything you&#39;ll work on for longer.&lt;/p&gt;
-&lt;h3 id=&quot;seriously-this-seems-like-it-would-make-tickets-take-longer&quot; tabindex=&quot;-1&quot;&gt;Seriously, this seems like it would make tickets take longer &lt;a class=&quot;header-anchor&quot; href=&quot;https://wadearmstrong.com/things/How%20to%20Start%20a%20Ticket/&quot;&gt;#&lt;/a&gt;&lt;/h3&gt;
-&lt;p&gt;What really take a long time, both in terms of how much of a given sprint it takes up and, maybe more importantly, in terms of &lt;em&gt;how long it feels&lt;/em&gt;, is when a ticket gets kicked back multiple times from code review.&lt;/p&gt;
-&lt;p&gt;Think of this as a way to push all your mistakes to early in the process, when they can be redone cheaply:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Changing your mind in a conversation is easier than changing code&lt;/li&gt;
-&lt;li&gt;Drawing a new line or a new entity on a whiteboard is easier than changing code&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Don&#39;t let yourself get bogged down, but, if you expect a ticket to take a few days, what&#39;s the downside of spending a couple hours up front?&lt;/p&gt;
-&lt;h3 id=&quot;shouldn-t-the-organization-trust-me-to-plan-my-story-on-my-own&quot; tabindex=&quot;-1&quot;&gt;Shouldn&#39;t the organization trust me to plan my story on my own? &lt;a class=&quot;header-anchor&quot; href=&quot;https://wadearmstrong.com/things/How%20to%20Start%20a%20Ticket/&quot;&gt;#&lt;/a&gt;&lt;/h3&gt;
-&lt;p&gt;Sure, and they also trust you to execute the plan and write code. But most orgs also have code review, because we&#39;re all, together, smarter than any one of us, individually. Think of the above as &amp;quot;idea review&amp;quot;.&lt;/p&gt;
-&lt;h3 id=&quot;i-don-t-want-to-ask-dumb-questions-of-senior-engineers-that-makes-me-feel-dumb&quot; tabindex=&quot;-1&quot;&gt;I don&#39;t want to ask dumb questions of Senior Engineers, that makes me feel dumb. &lt;a class=&quot;header-anchor&quot; href=&quot;https://wadearmstrong.com/things/How%20to%20Start%20a%20Ticket/&quot;&gt;#&lt;/a&gt;&lt;/h3&gt;
-&lt;p&gt;Answering those questions is literally in their job description, and they&#39;re literally evaluated on how well (and positively!) they answer them. You should never be made to feel dumb. If you are, let your manager know.&lt;/p&gt;
-&lt;h3 id=&quot;so-i-can-ask-any-dumb-question-then&quot; tabindex=&quot;-1&quot;&gt;So I can ask any dumb question, then? &lt;a class=&quot;header-anchor&quot; href=&quot;https://wadearmstrong.com/things/How%20to%20Start%20a%20Ticket/&quot;&gt;#&lt;/a&gt;&lt;/h3&gt;
-&lt;p&gt;Ask your best question. Do enough research that you&#39;re comfortable you have a specific question that, when answered, will lead you forward. Some advice on asking good questions: &lt;a href=&quot;https://stackoverflow.com/help/how-to-ask&quot;&gt;1&lt;/a&gt; &lt;a href=&quot;https://medium.com/@dan_abramov/asking-good-questions-421f08ee7e5c&quot;&gt;2&lt;/a&gt;, &lt;a href=&quot;https://medium.com/@gordon_zhu/how-to-be-great-at-asking-questions-e37be04d0603&quot;&gt;3&lt;/a&gt;, &lt;a href=&quot;http://www.catb.org/~esr/faqs/smart-questions.html&quot;&gt;4&lt;/a&gt;, &lt;a href=&quot;https://codeblog.jonskeet.uk/2012/11/24/stack-overflow-question-checklist/&quot;&gt;5&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;Your best question probably expresses less understanding of a topic than a subject matter expert would have. If you knew all that SME knew, you wouldn&#39;t have a question (and you&#39;d be the SME). Don&#39;t worry that you know less.&lt;/p&gt;
-&lt;h3 id=&quot;what-do-i-do-if-i-get-an-answer&quot; tabindex=&quot;-1&quot;&gt;What do I do if I get an answer? &lt;a class=&quot;header-anchor&quot; href=&quot;https://wadearmstrong.com/things/How%20to%20Start%20a%20Ticket/&quot;&gt;#&lt;/a&gt;&lt;/h3&gt;
-&lt;p&gt;Document it! In the ticket comments, if it&#39;s trivial; if you think it would be useful to other people, in the permanent documentation, such as a wiki or generated docs. If you&#39;re not sure, you probably have your own page on a wiki, so put it there. Documenting things you learn helps you not have to ask the same questions again and again, which makes you faster and happier. Soon, you&#39;ll be the expert!&lt;/p&gt;
-&lt;h3 id=&quot;that-s-a-lot-of-documentation&quot; tabindex=&quot;-1&quot;&gt;That&#39;s a lot of documentation! &lt;a class=&quot;header-anchor&quot; href=&quot;https://wadearmstrong.com/things/How%20to%20Start%20a%20Ticket/&quot;&gt;#&lt;/a&gt;&lt;/h3&gt;
-&lt;p&gt;Would you rather write a few comments or have people keep asking you what&#39;s going on? Thought so.&lt;/p&gt;
-</content>
-	</entry>
-	
-	<entry>
-		<title>Title Here</title>
-		<link href="https://wadearmstrong.com/things/FrontMatter.tmpl/"/>
-		<updated>2023-05-12T00:00:00Z</updated>
-		<id>https://wadearmstrong.com/things/FrontMatter.tmpl/</id>
-		<content type="html"></content>
-	</entry>
-	
-	<entry>
 		<title>CommonJS, ES Modules, and Why to Test Natively in One or the Other</title>
 		<link href="https://wadearmstrong.com/commonjs_esmodules_test-natively/"/>
 		<updated>2020-04-01T00:00:00Z</updated>
