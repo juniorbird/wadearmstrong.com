@@ -2,67 +2,67 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
 	
 	<url>
-		<loc>https://wadearmstrong.com/_site/things/code_standards/</loc>
+		<loc>https://wadearmstrong.com/things/code_standards/</loc>
 		<lastmod>2019-07-04</lastmod>
 	</url>
 	
 	<url>
-		<loc>https://wadearmstrong.com/_site/things/on-call_checklist/</loc>
+		<loc>https://wadearmstrong.com/things/on-call_checklist/</loc>
 		<lastmod>2019-08-24</lastmod>
 	</url>
 	
 	<url>
-		<loc>https://wadearmstrong.com/_site/things/why_to_use_ssh_proxy-command/</loc>
+		<loc>https://wadearmstrong.com/things/why_to_use_ssh_proxy-command/</loc>
 		<lastmod>2019-09-14</lastmod>
 	</url>
 	
 	<url>
-		<loc>https://wadearmstrong.com/_site/things/sample_code_review_checklist/</loc>
+		<loc>https://wadearmstrong.com/things/sample_code_review_checklist/</loc>
 		<lastmod>2019-10-02</lastmod>
 	</url>
 	
 	<url>
-		<loc>https://wadearmstrong.com/_site/things/console-log_vs_breakpoint/</loc>
+		<loc>https://wadearmstrong.com/things/console-log_vs_breakpoint/</loc>
 		<lastmod>2020-02-11</lastmod>
 	</url>
 	
 	<url>
-		<loc>https://wadearmstrong.com/_site/commonjs_esmodules_test-natively/</loc>
+		<loc>https://wadearmstrong.com/commonjs_esmodules_test-natively/</loc>
 		<lastmod>2020-04-01</lastmod>
 	</url>
 	
 	<url>
-		<loc>https://wadearmstrong.com/_site/things/commonjs_esmodules_test-natively/</loc>
+		<loc>https://wadearmstrong.com/things/commonjs_esmodules_test-natively/</loc>
 		<lastmod>2023-05-12</lastmod>
 	</url>
 	
 	<url>
-		<loc>https://wadearmstrong.com/_site/things/Git%20Submodules,%20and%20When%20to%20Use%20Them/</loc>
+		<loc>https://wadearmstrong.com/things/Git%20Submodules,%20and%20When%20to%20Use%20Them/</loc>
 		<lastmod>2023-07-11</lastmod>
 	</url>
 	
 	<url>
-		<loc>https://wadearmstrong.com/_site/</loc>
-		<lastmod>2023-08-07</lastmod>
+		<loc>https://wadearmstrong.com/</loc>
+		<lastmod>2023-08-08</lastmod>
 	</url>
 	
 	<url>
-		<loc>https://wadearmstrong.com/_site/readme/</loc>
-		<lastmod>2023-08-07</lastmod>
+		<loc>https://wadearmstrong.com/readme/</loc>
+		<lastmod>2023-08-08</lastmod>
 	</url>
 	
 	<url>
-		<loc>https://wadearmstrong.com/_site/tags/</loc>
-		<lastmod>2023-08-07</lastmod>
+		<loc>https://wadearmstrong.com/tags/</loc>
+		<lastmod>2023-08-08</lastmod>
 	</url>
 	
 	<url>
-		<loc>https://wadearmstrong.com/_site/tags/things/</loc>
-		<lastmod>2023-08-07</lastmod>
+		<loc>https://wadearmstrong.com/tags/things/</loc>
+		<lastmod>2023-08-08</lastmod>
 	</url>
 	
 	<url>
-		<loc>https://wadearmstrong.com/_site/things/</loc>
-		<lastmod>2023-08-07</lastmod>
+		<loc>https://wadearmstrong.com/things/</loc>
+		<lastmod>2023-08-08</lastmod>
 	</url>
 </urlset>
