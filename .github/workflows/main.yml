@@ -12,6 +12,12 @@ permissions:
   pages: write
   id-token: write
 
+# Allow one concurrent deployment
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+
 jobs:
   configure:
     runs-on: ubuntu-latest
@@ -20,6 +26,8 @@ jobs:
       - name: Setup pages
         id: pages
         uses: actions/configure-pages@v3
+        with:
+          token: ${{ github.token }}
 
   build:
     runs-on: ubuntu-latest
@@ -46,7 +54,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
-            path: ./_site
+            path: '_site'
 
 
   deploy:
