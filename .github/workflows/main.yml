@@ -19,20 +19,20 @@ concurrency:
 
 
 jobs:
-  configure:
-    runs-on: ubuntu-latest
+  # configure:
+  #   runs-on: ubuntu-latest
 
-    steps:
-      - name: Setup pages
-        id: pages
-        uses: actions/configure-pages@v3
-        with:
-          token: ${{ github.token }}
+  #   steps:
+  #     - name: Setup pages
+  #       id: pages
+  #       uses: actions/configure-pages@v3
+  #       with:
+  #         token: ${{ github.token }}
 
   build:
     runs-on: ubuntu-latest
 
-    needs: configure
+    # needs: configure
 
     strategy:
       matrix:
@@ -55,14 +55,18 @@ jobs:
 
       - name: Fix permissions
         run: |
-          chmod -c -R +rX "./_site/" | while read line; do
+          chmod -c -R +rX "_site" | while read line; do
             echo "::warning title=Invalid file permissions automatically fixed::$line"
           done
+
+      - name: Setup pages
+        id: pages
+        uses: actions/configure-pages@v3
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
-            path: "./_site"
+            path: ./_site
 
 
   deploy:
