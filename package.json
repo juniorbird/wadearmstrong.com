@@ -7,7 +7,7 @@
 		"build:prod": "env NODE_ENV=production npx @11ty/eleventy",
 		"build:actions": "env NODE_ENV=production npx @11ty/eleventy",
 		"build:ghpages": "npm run clean:all && npm run build:prod && cp -r _site docs/",
-		"clean:site": "rm -rf _site/*",
+		"clean:site": "rm -rf _site/ && mkdir _site",
 		"clean:docs": "rm -rf docs/",
 		"clean:all": "npm run clean:site && npm run clean:docs",
 		"start": "npx @11ty/eleventy --serve --quiet",
