@@ -3,6 +3,7 @@ title: Console Log vs. Breakpoint
 description: In my experience, these are standards that make code better, easier-to-maintain, more pleasant to deal with.
 date: 2020-02-11
 layout: layouts/base.njk
+draft: true
 tags:
   - posts
 ---
