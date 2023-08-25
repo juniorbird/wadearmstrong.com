@@ -45,6 +45,8 @@ jobs:
 
       - name: Checkout repo
         uses: actions/checkout@v3
+        with:
+            submodules: recursive
 
       - name: Setup Node ${{ matrix.node-version }}
         uses: actions/setup-node@v3

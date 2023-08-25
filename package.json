@@ -10,6 +10,8 @@
 		"clean:site": "rm -rf _site/ && mkdir _site",
 		"clean:docs": "rm -rf docs/",
 		"clean:all": "npm run clean:site && npm run clean:docs",
+		"watch": "npm run clean:all && npx @11ty/eleventy --serve",
+		"watch:prod": "npm run clean:all && env NODE_ENV=production npx @11ty/eleventy --serve",
 		"start": "npx @11ty/eleventy --serve --quiet",
 		"debug": "DEBUG=Eleventy* npx @11ty/eleventy",
 		"debugstart": "DEBUG=Eleventy* npx @11ty/eleventy --serve --quiet",

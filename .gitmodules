@@ -1,0 +1,3 @@
+[submodule "content/things"]
+	path = content/things
+	url = https://github.com/juniorbird/wadearmstrong.com-content.git
