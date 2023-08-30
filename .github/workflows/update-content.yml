@@ -1,0 +1,23 @@
+name: Update Content From Git Submodule
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  update:
+    name: Update `content/things` submodule and commit to main
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/checkout@v3
+          with:
+            token: ${{ secrets.WA_Publish_Token }}
+        - name: Pull from submodule
+          run: |
+            git config --global user.name "WadeArmstrong.com automation"
+            git config --global user.email "juniorbird@users.noreply.github.com"
+            git submodule update --init --remote --recursive
+        - name: Commit changes
+          run: |
+            git add .
+            git commit -m 'Update to latest from submodule'
+            git push
