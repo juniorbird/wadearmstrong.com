@@ -122,7 +122,7 @@ main a {
 
 /* Footer */
 footer {
-  /* background-color: var(--color-bg-footer); */
+  background-color: var(--color-bg-footer);
   color: var(--color-text-footer);
   padding: 12px 0px 1px 5px;
   text-align: center;
